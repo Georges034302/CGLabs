@@ -10,3 +10,7 @@
 # 8 - Download Javascript Babel extension
 # 9 - Create lab<ID> for each lab to develop three js apps
 # 10- Insert the labs js scripts into index.html and load using live server
+
+## Enabling ThreeJS autocomplete in vscode:
+# 1 - in the vscode terminal run the command: npm init -y   [This command will generate the package.json file for your project]
+# 2 - in the vscode terminal run the command: npm install @types/three [This command will install the ThreeJS definition module in vscode]

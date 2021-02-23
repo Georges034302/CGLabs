@@ -1,6 +1,5 @@
 //Set the pixel ration of the Canvas resolution
 var ratio = window.innerWidth / window.innerHeight;
-
 //To display anything with three.js, we need three objects: scene, camera and renderer.
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000);
