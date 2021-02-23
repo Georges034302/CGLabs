@@ -1,0 +1,13 @@
+## Lab1.v1 consists of:
+# 1 - lab1.js [procedural programming style that creates a cube and a sphere]
+# 2 - inject the lab1.js in index.html [using script tag inside the html-body]
+# 3 - deploy index.html on live server
+
+
+## Lab1.v2 consists of:
+# 1 - setup.js [refactored js code into functions that contains the setup of the initial components needed to create threejs graphics]
+# 2 - build.js [refactored js code into functions that contains functions responsible to create a cube and a sphere]
+# 3 - build.js functions are parametrised [the display graphics are changeable with arguments values]
+# 4 - animate.js [refactorer js code into functions responsible for rendering the objects on the canvas and animating the objects]
+# 5 - run.js [calls the functions from the other scripts and runs them in the body of index.html]
+# 6 - Load the scripts in the correct order [setup.js -> build.js -> animate.js -> run.js]
