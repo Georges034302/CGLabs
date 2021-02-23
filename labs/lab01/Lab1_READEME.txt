@@ -4,7 +4,7 @@
 # 3 - deploy index.html on live server
 
 
-## Lab1.v2 consists of:
+## Lab1.v2 [To-Do] consists of:
 # 1 - setup.js [refactored js code into functions that contains the setup of the initial components needed to create threejs graphics]
 # 2 - build.js [refactored js code into functions that contains functions responsible to create a cube and a sphere]
 # 3 - build.js functions are parametrised [the display graphics are changeable with arguments values]
