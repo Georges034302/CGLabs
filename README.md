@@ -13,5 +13,11 @@
 
 #### Enabling ThreeJS autocomplete in vscode:
 ##### 1 - Install nodejs for your operating system [https://nodejs.org/en/download/]
-##### 1 - in the vscode terminal run the command: npm init -y   [This command will generate the package.json file for your project]
-##### 2 - in the vscode terminal run the command: npm install @types/three [This command will install the ThreeJS definition module in vscode]
+####### 1.1- On linux use the following commands: 
+             ####### sudo apt install node  
+             ####### sudo apt install npm
+##### 2 - in the vscode terminal run the command: npm init -y   [This command will generate the package.json file for your project]
+##### 3 - in the vscode terminal run the command: npm install @types/three [This command will install the ThreeJS definition module in vscode]
+
+
+
