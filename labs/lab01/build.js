@@ -23,7 +23,7 @@ function createSphere(radius, hlines, vlines, r, g, b) {
 }
 
 var cube = createCube(2, 2, 2, 0, 1, 0);
-var sphere = createSphere(1, 32, 32, 1, 0, 1);
+var sphere = createSphere(1, 20, 20, 1, 0, 1);
 
 function addShapes() {
     scene.add(cube);
