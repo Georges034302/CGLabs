@@ -1,11 +1,15 @@
 /* global THREE, scene, renderer, camera */
 
-//In this lab we use a group to organise the matrices of a set of cubes
-//Create a group for the cubes set
+/*
+ *
+ * In this lab we use a group to organise the matrices of a set of cubes
+ * Create a group for the cubes set
+ * Define the number of cubes in the set [size of the cubes array]
+ * 
+ */
 
-var n = 36;
-var cubes = [];
-//Create a cube using variable w, h, d
+
+//Create a cube using variable w, h, d and a hex-color
 function createCube(w, h, d, color) {
     var material = new THREE.MeshBasicMaterial();
 
@@ -16,18 +20,16 @@ function createCube(w, h, d, color) {
     var square = new THREE.Mesh(geometry_cube, material);
     return square;
 }
+var cube = createCube(1, 1, 1, 0xff0000);
 
-function createShapes() {
-    for (let i = 0; i < n; i++) {
-        //Add Matrices for translation, rotation, scaling
-        //randomize the color of each cube in the group
-        cubes[i] = createCube(1, 1, 1, 0xff0000);
-
-        //replace the line  below and add the cubes to a group
-        scene.add(cubes[i]);
-    }
-}
+/*
+ * Define a function that creates a set of cubes
+ * Add Matrices for translation, rotation, scaling
+ * Randomize the color of each cube in the group
+ * Add the cubes to a group
+ */
 
 function addShapes() {
     //add the group of cubes to the scene
+    scene.add(cube);
 }

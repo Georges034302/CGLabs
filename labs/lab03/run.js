@@ -1,5 +1,5 @@
 setScene();
-createShapes();
+//createShapes();
 addShapes();
 
 animate();
