@@ -1,16 +1,32 @@
+/* 
+    Created on : 04/03/2020, 3:08:18 PM
+    Author     : george
+*/
+
 canvas {
     width: 100%;
     height: 100%;
 }
 
 body {
-    background-color: black;
+    font-family: Monospace;
+    margin: 0px;
+    overflow: hidden;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    text-align: center;
 }
 
 h1 {
-    color: aliceblue;
     text-align: center;
+    color: cornsilk;
+    font-size: 300%;
     background-color: #23445D;
     width: 100%;
     padding: 10px 5px;
+    margin-top: auto;
 }

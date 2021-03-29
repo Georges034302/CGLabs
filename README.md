@@ -32,5 +32,3 @@ npm init -y
 npm install @types/three 
 [This command will install the ThreeJS definition module in vscode]
 ```
-
-

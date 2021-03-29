@@ -1,22 +1,14 @@
 {
-  "name": "CGLabs",
+  "name": "CGraphics",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "bounce.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Georges034302/CGLabs.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Georges034302/CGLabs/issues"
-  },
-  "homepage": "https://github.com/Georges034302/CGLabs#readme",
   "dependencies": {
     "@types/three": "^0.125.3"
   }
