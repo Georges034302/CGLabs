@@ -13,14 +13,7 @@ function loadTexture(loader, object) {
 
 //Create texture object from file
 function createObj() {
-    mtlLoader.load("Librarian.obj.mtl", function(materials) {
-        materials.preload();
-        var objLoader = new THREE.OBJLoader();
-        objLoader.setPath("models/");
-        objLoader.setMaterials(materials);
 
-        loadTexture(objLoader, "Librarian.obj");
-    });
 }
 
 function addLight() {
