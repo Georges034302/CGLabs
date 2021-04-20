@@ -25,7 +25,7 @@ function addLight() {
 
 //Add all shapes to the scene
 function addShapes() {
-    createObj(/* insert MTL texture file-name here */);
+    createObjfromMTL(/* insert MTL texture file-name here */);
     addLight();
     scene.add(camera);
     scene.add(ambientlight);
