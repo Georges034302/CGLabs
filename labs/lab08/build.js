@@ -7,13 +7,13 @@ mtlLoader.setTexturePath("models/");
 mtlLoader.setPath("models/");
 
 //Load a texture object and traverse the texture geometry then apply the combined matrices to the mesh
-function loadTexture(loader, object) {
-
+function loadObject(loader, object) {
+    
 }
 
 //Create texture object from file
-function createObj() {
-
+function createObjfromMTL(objmtl) {
+    
 }
 
 function addLight() {
@@ -25,7 +25,7 @@ function addLight() {
 
 //Add all shapes to the scene
 function addShapes() {
-    createObj();
+    createObjfromMTL(/* insert MTL texture file-name here */);
     addLight();
     scene.add(camera);
     scene.add(ambientlight);
