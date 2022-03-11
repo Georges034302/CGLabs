@@ -18,14 +18,19 @@ document.body.appendChild(renderer.domElement);
 //CREATE A SHAPE (i.e CUBE)
 //1-create the cube material
 var cube_material = new THREE.MeshBasicMaterial();
+
 //2-setup the cube color
 cube_material.color = new THREE.Color(0, 1, 0);
+
 //3-decide on the visibility style (i.e wireframe)
 cube_material.wireframe = true;
+
 //4-create the shape geometry(i.e cube)
 var cube_geometry = new THREE.BoxGeometry(2, 2, 2);
+
 //5- Build the cube from geometry and material
 var cube = new THREE.Mesh(cube_geometry, cube_material);
+
 //6- set the shape position
 cube.position.x -= 2;
 
