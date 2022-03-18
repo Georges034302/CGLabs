@@ -1,5 +1,5 @@
 /* global THREE */
-//Declare Systen Variables
+//Declare System Variables
 
 var scene;
 var camera;
