@@ -1,5 +1,13 @@
 /* global THREE, scene, renderer, camera */
-
+function createSphere(radius, hlines, vlines, color) {
+    var material = new THREE.MeshPhongMaterial();
+    material.color = new THREE.Color(color);
+    material.wireframe = false;
+    material.shininess = 100;
+    var geometry_sphere = new THREE.SphereGeometry(radius, hlines, vlines);
+    var sphere = new THREE.Mesh(geometry_sphere, material);
+    return sphere;
+}
 
 //Create a cube using variable w, h, d and a hex-color
 function createCube(w, h, d, color) {
@@ -36,9 +44,15 @@ function createShapes() {
         cubes[i].applyMatrix(combined);
         group.add(cubes[i]);
     }
+    var sphere_color = new THREE.Color(0xD3D3D3);
+    var sphere = createSphere(5, 24, 24, sphere_color);
+    sphere.position.y = 4;
+    group.add(sphere);
 }
 
 function addShapes() {
     //add the group of cubes to the scene
     scene.add(group);
+    scene.add(camera);
+    scene.add(ambientLight);
 }

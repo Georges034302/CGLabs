@@ -1,4 +1,5 @@
 setScene();
+setLight();
 createShapes();
 addShapes();
 animate();

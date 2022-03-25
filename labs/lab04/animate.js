@@ -3,14 +3,14 @@
 const speed = 0.02;
 
 function rotate(object) {
-    object.rotation.x += 0.01;
-    object.rotation.z += 0.01;
+    object.rotation.x += speed;
+    object.rotation.z += speed;
 }
 
 function animate() {
     renderer.render(scene, camera);
     cubes.forEach(rotate);
-    group.rotation.y += 0.01;
+    group.rotation.y += speed;
     controls.update();
     requestAnimationFrame(animate);
 }
