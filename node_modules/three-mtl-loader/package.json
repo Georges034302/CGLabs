@@ -1,0 +1,38 @@
+{
+  "name": "three-mtl-loader",
+  "version": "1.0.2",
+  "description": "node module for the three mtl loader",
+  "main": "index.js",
+  "scripts": {
+    "demo": "budo demo.js:bundle.js --live --debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nascherman/three-mtl-loader.git"
+  },
+  "keywords": [
+    "three.js",
+    "mtl",
+    "obj",
+    "geometry",
+    "material",
+    "mesh",
+    "webgl"
+  ],
+  "author": "nascherman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nascherman/three-mtl-loader/issues"
+  },
+  "homepage": "https://github.com/nascherman/three-mtl-loader#readme",
+  "dependencies": {
+    "three": "^0.87.1"
+  },
+  "devDependencies": {
+    "budo": "^8.3.0",
+    "jser-three-obj-loader": "^1.0.0",
+    "path": "^0.12.7",
+    "raf-loop": "^1.1.3",
+    "scene-template": "^1.0.1"
+  }
+}

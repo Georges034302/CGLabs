@@ -10,6 +10,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@types/three": "^0.125.3"
+        "@types/three": "^0.125.3",
+        "three-mtl-loader": "^1.0.2"
     }
 }
