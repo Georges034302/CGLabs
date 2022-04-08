@@ -51,7 +51,6 @@ function createMesh() {
 
 }
 
-//add light
 function addLight() {
     cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 0.5);
     cameralight.castShadow = true;
@@ -68,6 +67,7 @@ function createFloor() {
     return new THREE.Mesh(floorGeometry, floorMaterial);
 }
 
+//create a sphere
 function createSphere(radius, hlines, vlines, color) {
     var material = new THREE.MeshPhongMaterial();
     material.color = new THREE.Color(color);
@@ -76,13 +76,12 @@ function createSphere(radius, hlines, vlines, color) {
     var geometry_sphere = new THREE.SphereGeometry(radius, hlines, vlines);
     var s = new THREE.Mesh(geometry_sphere, material);
     s.position.z = 2;
-
     return s;
 }
-var sphere = createSphere(1.5, 40, 40, 0xFFFFF);
+
+
 //Add all shapes to the scene
 function addShapes() {
-    scene.add(createFloor());
     addLight();
     scene.add(camera);
     scene.add(ambientlight);
