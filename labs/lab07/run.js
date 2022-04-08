@@ -1,5 +1,5 @@
 setScene();
 window.addEventListener('resize', resizeScene);
 addShapes();
-//buildGui();
+buildGui();
 requestAnimationFrame(updateLoop);

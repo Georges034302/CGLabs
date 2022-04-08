@@ -48,7 +48,12 @@ function buildMesh(object) {
 }
 
 function createMesh() {
-
+    var subd = 100;
+    var geom = new THREE.Geometry();
+    translate(geom, subd);
+    push(geom, subd);
+    buildMesh(geom);
+    return tissue;
 }
 
 function addLight() {
@@ -79,9 +84,12 @@ function createSphere(radius, hlines, vlines, color) {
     return s;
 }
 
-
+var sphere = createSphere(1.5, 25, 25, 0xff00ff);
 //Add all shapes to the scene
 function addShapes() {
+    scene.add(createMesh());
+    scene.add(createFloor());
+    scene.add(sphere);
     addLight();
     scene.add(camera);
     scene.add(ambientlight);
