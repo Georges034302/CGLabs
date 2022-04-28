@@ -1,35 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="js/three.js"></script>
-        <script src="js/PLYLoader.js"></script>
-        <script src="js/dat.gui.min.js"></script>
-        <script src="js/MTLLoader.js"></script>
-        <script src="js/OrbitControls.js"></script>
-        <script src="js/OBJLoader.js"></script>
-        <link rel="stylesheet" href="css/layout.css">
-        <title>CG Labs</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="importmap">
+			{
+				"imports": {
+					"three": "/js/three.module.js"
+				}
+			}
+		</script>
+    <link rel="stylesheet" href="css/layout.css">
+    <title>CG Labs</title>
+</head>
 
-    <body>
-        <div id="info">
-            <H1>Computer Graphics Demo</H1>
-        </div>
-        <script type='x-shader/x-vertex' id='vertexShader'>
-            attribute float alpha; varying float vAlpha; void main() { vAlpha = alpha; vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 ); gl_PointSize = 2.0; gl_Position = projectionMatrix * mvPosition; }
-        </script>
+<body>
+    <div id="info">
+        <H1>Computer Graphics Demo</H1>
+    </div>
+    <script type="module">
 
-        <script type='x-shader/x-fragment' id='fragmentShader'>
-            uniform vec3 color; varying float vAlpha; void main() { gl_FragColor = vec4( color, vAlpha ); }
-        </script>
-        <script src="labs/lab08/setup.js"></script>
-        <script src="labs/lab08/build.js"></script>
-        <script src="labs/lab08/animate.js"></script>
-        <script src="labs/lab08/run.js"></script>
-    </body>
+        import * as THREE from 'three';
+
+        //Declare Systen Variables
+        var scene = new THREE.Scene();
+        var renderer;
+        var camera;
+        var torusKnot;
+        var floor;
+        var controls;
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var ratio = window.innerWidth / window.innerHeight;
+        var speed = 0.005;
+
+        function createCamera() {
+            var mycamera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000);
+            mycamera.position.set(0, 0, 15);
+            mycamera.lookAt(0, 0, 1);
+            mycamera.position.z = 15;
+            var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
+            mycamera.add(cameralight);
+            return mycamera;
+        }
+        camera = createCamera();
+;
+
+        function createRenderer() {
+            var myrenderer = new THREE.WebGLRenderer({ antialias: true });
+            myrenderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(myrenderer.domElement);
+            return myrenderer;
+        }
+        renderer = createRenderer();
+     
+        //Resize the scene and update the camera aspect to the screen ration
+        var resizeScene = function () {
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.render(scene, camera);
+        };
+
+        //Create floor
+        function createFloor() {
+            var floorMaterial = new THREE.MeshLambertMaterial();
+            floorMaterial.shininess = 100;
+            floorMaterial.color = new THREE.Color(0.8, 0.9, 0.3);
+            floorMaterial.side = THREE.DoubleSide;
+            var floorGeometry = new THREE.BoxGeometry(10, 0.2, 10);
+            var floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
+            floorMesh.position.y -= 3;
+            return floorMesh;
+        }
+
+        //create a knot
+        function createKnot() {
+            var geometry_knot = new THREE.TorusKnotGeometry();
+            var material_knot = new THREE.MeshPhongMaterial();
+            material_knot.color = new THREE.Color(0.8, 1, 1);
+            var torusKnot = new THREE.Mesh(geometry_knot, material_knot);
+            return torusKnot;
+        }
+
+        torusKnot = createKnot();
+        floor = createFloor();
+
+        //Add all shapes to the scene
+        function addShapes() {
+            scene.add(camera);
+            scene.add(floor);
+            scene.add(torusKnot);
+        }
+  
+        //knot rotation 
+        function rotateKnot() {
+            torusKnot.rotation.x += speed;
+            torusKnot.rotation.y += speed;
+            torusKnot.rotation.z += speed;
+        }
+
+        //animation loop
+        function animate() {
+            renderer.render(scene, camera);
+            rotateKnot();
+            requestAnimationFrame(animate);
+        };
+
+        addShapes();
+        animate();
+        window.addEventListener('resize', resizeScene);
+
+    </script>
+</body>
 
 </html>
