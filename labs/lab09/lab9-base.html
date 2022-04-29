@@ -86,18 +86,14 @@
 	 scene.add( torusKnot );
 
 	 //final update loop
-	 var MyUpdateLoop = function ( )
-  	{
-    	//call the render with the scene and the camera
+	 var MyUpdateLoop = function ( ){
+
     	renderer.render(scene,camera);
 
 
 		torusKnot.rotation.x+=0.002;
 		torusKnot.rotation.y+=0.002;
 		torusKnot.rotation.z+=0.002;
-
-    	//finally perform a recoursive call to update again
-    	//this must be called because the mouse change the camera position
     	requestAnimationFrame(MyUpdateLoop);
   	};
 

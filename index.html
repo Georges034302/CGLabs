@@ -28,25 +28,43 @@
         var scene = new THREE.Scene();
         var renderer;
         var camera;
+        var num_cam = 6;
+        const cameras = [];
         var torusKnot;
         var floor;
         var controls;
         var width = window.innerWidth;
         var height = window.innerHeight;
         var ratio = window.innerWidth / window.innerHeight;
+        var width_cam = (width/num_cam)*window.devicePixelRatio;
+        var height_cam = (height/num_cam)*window.devicePixelRatio;
         var speed = 0.005;
 
         function createCamera() {
-            var mycamera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000);
-            mycamera.position.set(0, 0, 15);
-            mycamera.lookAt(0, 0, 1);
-            mycamera.position.z = 15;
+            for(let y = 0; y <num_cam; y++){
+                for(let x = 0; x<num_cam; x++){
+                    const subcamera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000);
+                    subcamera.viewport = new THREE.Vector4(Math.floor(x*width_cam), 
+                    Math.floor(y*height_cam),
+                    Math.ceil(width_cam),
+                    Math.ceil(height_cam));
+                    subcamera.position.x = (x*5) - 0.5;
+                    subcamera.position.y = (y*5) - 0.5;
+                    subcamera.position.z = 4;
+                    subcamera.position.multiplyScalar(2);
+                    subcamera.lookAt(0, 0, 0);
+                    subcamera.updateProjectionMatrix();
+                    cameras.push(subcamera);
+                }
+            }
+
+            var mycamera = new THREE.ArrayCamera(cameras);
+            mycamera.position.z =  3;
             var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
             mycamera.add(cameralight);
             return mycamera;
         }
         camera = createCamera();
-;
 
         function createRenderer() {
             var myrenderer = new THREE.WebGLRenderer({ antialias: true });
@@ -58,10 +76,26 @@
      
         //Resize the scene and update the camera aspect to the screen ration
         var resizeScene = function () {
-            renderer.setSize(width, height);
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            var ratio = window.innerWidth / window.innerHeight;
+            width_cam = (width/num_cam)*window.devicePixelRatio;
+            height_cam = (height/num_cam)*window.devicePixelRatio;
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
-            renderer.render(scene, camera);
+            for(let y = 0; y <num_cam; y++){
+                for(let x = 0; x<num_cam; x++){
+                    const subcamera = camera.cameras[num_cam^y + x];
+                    subcamera.viewport = new THREE.Vector4(Math.floor(x*width_cam), 
+                    Math.floor(y*height_cam),
+                    Math.ceil(width_cam),
+                    Math.ceil(height_cam));
+                    subcamera.aspect = ratio;
+                    subcamera.updateProjectionMatrix();
+                }
+            }
+            renderer.setSize(width, height);      
+           
         };
 
         //Create floor
