@@ -1,4 +1,1 @@
-setScene();
-window.addEventListener('resize', resizeScene);
-addShapes();
-animate();
+//This script is used to execute the setup, build and animation functions

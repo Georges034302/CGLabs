@@ -1,6 +1,1 @@
-//final update loop
-function animate() {
-    controls.update();
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-};
+//Define the final update loop - function

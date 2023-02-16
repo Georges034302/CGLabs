@@ -1,20 +1,8 @@
 /* global THREE, cube, scene, camera, renderer */
 
-const speed = 0.02;
+const speed = 0.01;
 
-function rotate(object) {
-    //Add the object rotation code here
-    object.rotation.x += 0.01;
-    object.rotation.z += 0.01;
-}
+//Define a function that rotates any object at a speed
 
-function animate() {
-    renderer.render(scene, camera);
-    //Rotate all cubes
-    //Rotate the group around the Y axis
-    cubes.forEach(rotate);
-    group.rotation.y += 0.01;
-    controls.update();
 
-    requestAnimationFrame(animate);
-}
+//Define a function that animates each cube object in the group

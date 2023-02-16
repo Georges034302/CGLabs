@@ -1,8 +1,1 @@
-setScene();
-addLight();
-createFloor();
-addShapes();
-loadModel('/models/chopper.ply');
-document.addEventListener('mousedown', onDocumentMouseDown, false);
-animate();
-window.addEventListener('resize', resizeScene);
+//This script is used to execute the setup, build and animation functions

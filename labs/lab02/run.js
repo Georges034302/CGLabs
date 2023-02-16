@@ -1,5 +1,1 @@
-setScene();
-addShapes();
-animate_earth();
-animate_moon();
-window.addEventListener('resize', resizeScene);
+//This script is used to execute the setup, build and animate functions
