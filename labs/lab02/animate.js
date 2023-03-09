@@ -13,7 +13,7 @@ function animate_earth(){
 
 const d = 5;
 var alpha = 0;
-var dalpha = 2*Math.PI/1000;
+var dalpha = 3*Math.PI/1000;
 function animate_moon(){
     alpha += dalpha;
     moon.position.y = 1;
