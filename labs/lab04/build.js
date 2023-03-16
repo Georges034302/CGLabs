@@ -53,6 +53,7 @@ function createShapes(){
 
 function addShapes(){
     scene.add(group);
-    scene.add(camera);
+    group.add(ambientLight);
+    scene.add(camera);    
     renderer.render(scene,camera);
 }
