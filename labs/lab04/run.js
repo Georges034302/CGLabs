@@ -1,1 +1,6 @@
-//This script is used to execute the setup, build and animation functions
+setScene();
+createcubes();
+addShapes();
+animate();
+animateColor();
+window.addEventListener('resize',resizeScene);
