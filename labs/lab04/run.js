@@ -1,5 +1,6 @@
 setScene();
-createcubes();
+setLight();
+createShapes();
 addShapes();
 animate();
 animateColor();

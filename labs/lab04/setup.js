@@ -2,6 +2,8 @@ var scene;
 var camera;
 var renderer;
 var controls;
+var ambientLight;
+var cameraLight;
 
 function setScene(){
     scene = new THREE.Scene();
@@ -15,6 +17,12 @@ function setScene(){
     renderer.setSize(window.innerWidth,window.innerHeight);
     document.body.appendChild(renderer.domElement);
     controls = new THREE.OrbitControls(camera,renderer.domElement);
+}
+
+function setLight(){
+    cameraLight = new THREE.PointLight(new THREE.Color(1,1,1),0,5);
+    camera.add(cameraLight);
+    ambientLight = new THREE.AmbientLight(new THREE.Color(1,1,1),0,2);
 }
 
 var resizeScene = function(){
