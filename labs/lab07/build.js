@@ -94,11 +94,15 @@ function createSphere(radius, hlines, vlines, color) {
 }
 
 //create sphere object
+var sphere = createSphere(1.5,25,25,0xff00ff);
 
 function addShapes() {
     //add mesh
+    scene.add(createMesh());
     //add floor
+    scene.add(createFloor());
     //add sphere
+    scene.add(sphere);
     addLight();
     scene.add(camera);
     scene.add(ambientlight);
