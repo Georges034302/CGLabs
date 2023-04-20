@@ -3,31 +3,32 @@ var ambientlight;
 var cameralight;
 
 //STEP 1: load models folder from path using MTLLoader
-var mtlloader = new THREE.MTLLoader();
-mtlloader.setTexturePath("models/");
-mtlloader.setPath("models/");
+var mtlLoader = new THREE.MTLLoader();
+mtlLoader.setTexturePath("models/");
+mtlLoader.setPath("models/");
 
 
 //Step 2: Load a texture object and traverse the texture geometry 
 //then apply the combined matrices to the mesh
-function loadTexture(loader, object) {
+function loadTexture(loader,object){
     loader.load(object,function(mesh){
         var center;
         var size;
         mesh.traverse(function(child){
             if(child instanceof THREE.Mesh){
-                var geo = new THREE.Geometry().fromBufferGeometry(child.geometry);
+                var mygeometry = new THREE.Geometry().fromBufferGeometry(child.geometry);
+                mygeometry.computeBoundingBox();
                 child.material.color = new THREE.Color(1,1,1);
-                center = geo.boundingBox.getCenter();
-                size = geo.boundingBox.getSize();
+                center = mygeometry.boundingBox.getCenter();
+                size = mygeometry.boundingBox.getSize();
             }
         });
         scene.add(mesh);
         var sca = new THREE.Matrix4();
         var tra = new THREE.Matrix4();
         var combined = new THREE.Matrix4();
-        sca.makeScale(10/size.length(),10/size.length(),10/size.length());
-        tra.makeTranslation(-center.x,-center.y,-center.z);
+        sca.makeScale(10/size.length(), 10/size.length(),10/size.length());
+        tra.makeTranslation(-center.x, -center.y, -center.z);
         combined.multiply(sca);
         combined.multiply(tra);
         mesh.applyMatrix(combined);
@@ -36,16 +37,19 @@ function loadTexture(loader, object) {
 
 
 //Step 3: Create object from MTL model stored in file
-function createObj() {
-    mtlloader.load('Librarian.obj.mtl',function(materials){
+function createObj(){
+    mtlLoader.load("Librarian.obj.mtl",function(materials){
         materials.preload();
-        var objloader = new THREE.OBJLoader();
-        objloader.setPath("models/");
-        objloader.setMaterials(materials);
-        loadTexture(objloader,'Librarian.obj');
+        var objLoader = new THREE.OBJLoader();
+        objLoader.setPath("models/");
+        objLoader.setMaterials(materials);
+
+        loadTexture(objLoader,"Librarian.obj");
     });
 
 }
+
+
 
 function addLight() {
     cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 0.5);
