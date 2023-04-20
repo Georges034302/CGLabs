@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="importmap">
+			{
+				"imports": {
+					"three": "/js/three.module.js"
+				}
+			}
+		</script>
+    <link rel="stylesheet" href="css/layout.css">
+    <title>CG Labs</title>
+</head>
+
+<body>
+    <div id="info">
+        <H1>Computer Graphics Demo</H1>
+    </div>
+    <script type="module">
+
+        import * as THREE from 'three';
+
+        //Declare Systen Variables
+        var scene = new THREE.Scene();
+        var renderer;
+        var camera;
+        var num_cam = 6;
+        const cameras = [];
+        var torusKnot;
+        var floor;
+        var controls;
+
+        var width_cam = (window.innerWidth / num_cam) * window.devicePixelRatio;
+        var height_cam = (window.innerHeight / num_cam) * window.devicePixelRatio;
+        var ratio = window.innerWidth / window.innerHeight;
+
+        //Setup the 3 main components: scene, camera, renderer
+        function createCamera() {
+            for (let y = 0; y < num_cam; y++) {
+                for (let x = 0; x < num_cam; x++) {
+                    const subcamera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000);
+                    subcamera.viewport = new THREE.Vector4(Math.floor(x * width_cam),
+                        Math.floor(y * height_cam),
+                        Math.ceil(width_cam),
+                        Math.ceil(height_cam));
+
+                    subcamera.position.x = (x * 5) - 0.5;
+                    subcamera.position.x = (y * 5) - 0.5;
+                    subcamera.position.z = 4;
+                    subcamera.position.multiplyScalar(2);
+                    subcamera.lookAt(0, 0, 0);
+                    subcamera.updateMatrixWorld();
+                    cameras.push(subcamera);
+                }
+            }
+            var mycamera = new THREE.ArrayCamera(cameras);
+            mycamera.position.z = 4;
+            var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
+            mycamera.add(cameralight);
+            return mycamera;
+        }
+        camera = createCamera();
+        console.log("Camera Z = " + camera.position.z);
+
+        function createRenderer() {
+            var myrenderer = new THREE.WebGLRenderer({ antialias: true });
+            myrenderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(myrenderer.domElement);
+            return myrenderer;
+        }
+        renderer = createRenderer();
+        //controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+
+        //Resize the scene and update the camera aspect to the screen ration
+        var resizeScene = function () {
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            ratio = width / height;
+            width_cam = (width / num_cam) * window.devicePixelRatio;
+            height_cam = (height / num_cam) * window.devicePixelRatio;
+
+            camera.aspect = ratio;
+            camera.updateProjectionMatrix();
+
+            for (let y = 0; y < num_cam; y++) {
+                for (let x = 0; x < num_cam; x++) {
+                    const subcamera = camera.cameras[num_cam * y + x];
+                    subcamera.viewport.set(
+                        Math.floor(x * width_cam),
+                        Math.floor(y * height_cam),
+                        Math.ceil(width_cam),
+                        Math.ceil(height_cam));
+                    subcamera.aspect = ratio;
+                    subcamera.updateProjectionMatrix();
+                }
+            }
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+        //Create floor
+        function createFloor() {
+            var floorMaterial = new THREE.MeshLambertMaterial();
+            floorMaterial.shininess = 100;
+            floorMaterial.color = new THREE.Color(0.8, 0.9, 0.3);
+            floorMaterial.side = THREE.DoubleSide;
+            var floorGeometry = new THREE.BoxGeometry(10, 0.2, 10);
+            var floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
+            floorMesh.position.y -= 3;
+            return floorMesh;
+        }
+
+        //create a knot
+        function createKnot() {
+            var geometry_knot = new THREE.TorusKnotGeometry();
+            var material_knot = new THREE.MeshPhongMaterial();
+            material_knot.color = new THREE.Color(0.8, 1, 1);
+            var torusKnot = new THREE.Mesh(geometry_knot, material_knot);
+            return torusKnot;
+        }
+
+        torusKnot = createKnot();
+        floor = createFloor();
+
+        //Add all shapes to the scene
+        function addShapes() {
+            scene.add(camera);
+            scene.add(floor);
+            scene.add(torusKnot);
+        }
+        var speed = 0.005;
+
+        //knot rotation 
+        function rotateKnot() {
+            torusKnot.rotation.x += speed;
+            torusKnot.rotation.y += speed;
+            torusKnot.rotation.z += speed;
+        }
+
+        //final update loop
+        function animate() {
+            renderer.render(scene, camera);
+            rotateKnot();
+            requestAnimationFrame(animate);
+        };
+
+        addShapes();
+        animate();
+        window.addEventListener('resize', resizeScene);
+
+    </script>
+
+</html>

@@ -1,4 +1,7 @@
 setScene();
 addShapes();
-animate();
-window.addEventListener('resize',resizeScene);
+
+animate_cube();
+animate_sphere();
+
+window.addEventListener('resize', resizeScene);

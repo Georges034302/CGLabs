@@ -1,0 +1,202 @@
+<html>
+  <head>
+    <title>Simple Geometry Test</title>
+  </head>
+
+  <style>
+  body {margin: 0;}
+  canvas {width: 100%; height: 100%;}
+  </style>
+
+  <body>
+    <!--include the three.js library-->
+   <script src="js/three.js"> </script>
+   <!--and the trackball code-->
+   <script src="js/OrbitControls.js"> </script>
+
+    <style>
+    			body {
+    				font-family: Monospace;
+    				background-color: #000;
+    				color: #fff;
+    				margin: 0px;
+    				overflow: hidden;
+    			}
+    			#info {
+    				position: absolute;
+    				top: 10px;
+    				width: 100%;
+    				text-align: center;
+    			}
+    </style>
+
+    <div id="info">
+      <p>This is the first example using threeJS<br>
+      left button to rotate the scene, scroll to zoom in/out</p>
+    </div>
+
+<!--VERTEX SHADERS-->
+
+   <script type="x-shader/x-vertex" id="vertexShaderNormal">
+     varying vec3 vNormal;
+
+     void main()
+     {
+       vNormal = (normalMatrix * normal);
+       vec4 ViewPosition= modelViewMatrix * vec4(position,1.0);
+       gl_Position=projectionMatrix * ViewPosition;
+     }
+   </script>
+
+   <script type="x-shader/x-vertex" id="vertexShaderHalfWayVect">
+     varying vec3 halfWayVect;
+     varying vec3 ViewNormal;
+     void main()
+     {
+       vec4 ViewPosition= modelViewMatrix * vec4(position,1.0);
+       gl_Position=projectionMatrix * ViewPosition;
+
+       ViewNormal= normalize(normalMatrix * normal);
+       const vec3 Viewlight = vec3( 0.5, 0.2, 1.0 );
+
+       vec3 ViewDir= vec3(0.0,0.0,1.0);
+       halfWayVect=normalize(ViewDir+Viewlight);
+     }
+   </script>
+
+<!--FRAGMENT SHADERS-->
+
+
+    <script type="x-shader/x-fragment" id="fragmentShaderNormal">
+    varying vec3 vNormal;
+
+    void main()
+    {
+			gl_FragColor = vec4( abs(vNormal), 1.0 );
+    }
+    </script>
+
+
+    <script type="x-shader/x-vertex" id="FragmentShaderDiffuseLight">
+      varying vec3 vNormal;
+
+      void main()
+      {
+        vec3 light = vec3( 0.5, 0.2, 1.0 );
+        light = normalize( light );
+        float dProd = dot( vNormal, light );
+        dProd=clamp(dProd,0.0,1.0);
+        gl_FragColor = vec4( dProd,dProd,dProd, 1.0 );
+      }
+    </script>
+
+    <script type="x-shader/x-vertex" id="FragmentShaderSpecularLight">
+      varying vec3 halfWayVect;
+      varying vec3 ViewNormal;
+
+      void main()
+      {
+        const vec3 Viewlight = vec3( 0.5, 0.2, 1.0 );
+
+        float specularComp = dot( halfWayVect, ViewNormal );
+        float diffuseComp = dot( ViewNormal, Viewlight );
+
+        diffuseComp=clamp(diffuseComp,0.0,1.0);
+        specularComp=clamp(specularComp,0.0,1.0);
+        specularComp=pow(specularComp,20.0);
+
+        const vec3 diffuseCol=vec3(0.0,0.0,1.0);
+        const vec3 specularCol=vec3(1.0);
+        vec3 FinalCol=diffuseComp * diffuseCol + specularComp*specularCol;
+        gl_FragColor = vec4(FinalCol,1.0);
+    }
+    </script>
+
+    <script>
+
+    //create the scene
+    var scene = new THREE.Scene( );
+    var ratio = window.innerWidth/window.innerHeight;
+    //create the perspective camera
+    //for parameters see https://threejs.org/docs/#api/cameras/PerspectiveCamera
+    var camera = new THREE.PerspectiveCamera(45,ratio,0.1,1000);
+
+    //set the camera position
+    camera.position.set(0,0,15);
+    // and the direction
+	  camera.lookAt(0,0,1);
+
+    //create the webgl renderer
+    var renderer = new THREE.WebGLRenderer( );
+
+    //set the size of the rendering window
+    renderer.setSize(window.innerWidth,window.innerHeight);
+
+    //add the renderer to the current document
+    document.body.appendChild(renderer.domElement );
+
+    //create the material of the cube (basic material)
+    var material_cube = new THREE.ShaderMaterial();
+
+    //test 1
+    // material_cube.vertexShader=document.getElementById( 'vertexShaderNormal' ).textContent;
+    // material_cube.fragmentShader=document.getElementById( 'fragmentShaderNormal' ).textContent;
+
+    //test 2
+     material_cube.vertexShader=document.getElementById( 'vertexShaderNormal' ).textContent;
+     material_cube.fragmentShader=document.getElementById( 'FragmentShaderDiffuseLight' ).textContent;
+
+    //test 3
+    // material_cube.vertexShader=document.getElementById( 'vertexShaderHalfWayVect' ).textContent;
+    // material_cube.fragmentShader=document.getElementById( 'FragmentShaderSpecularLight' ).textContent;
+
+    var geometry_knot = new THREE.TorusKnotGeometry( 4, 2, 60, 6 );
+    var knot = new THREE.Mesh(geometry_knot,material_cube);
+    //and add to the scene
+    scene.add(knot);
+
+  //////////////
+	// CONTROLS //
+	//////////////
+
+	// move mouse and: left   click to rotate,
+	//                 middle click to zoom,
+	//                 right  click to pan
+  // add the new control and link to the current camera to transform its position
+
+  controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+  //final update loop
+  var MyUpdateLoop = function ( )
+  {
+
+    //call the render with the scene and the camera
+    renderer.render(scene,camera);
+
+    controls.update();
+
+    //finally perform a recoursive call to update again
+    //this must be called because the mouse change the camera position
+    requestAnimationFrame(MyUpdateLoop);
+
+  };
+
+  requestAnimationFrame(MyUpdateLoop);
+
+  //this fucntion is called when the window is resized
+   var MyResize = function ( )
+   {
+     var width = window.innerWidth;
+     var height = window.innerHeight;
+     renderer.setSize(width,height);
+     camera.aspect = width/height;
+     camera.updateProjectionMatrix();
+     renderer.render(scene,camera);
+   };
+
+   //link the resize of the window to the update of the camera
+   window.addEventListener( 'resize', MyResize);
+
+    </script>
+  </body>
+</html>

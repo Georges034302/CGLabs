@@ -47,35 +47,32 @@ function createShapes() {
     var sphere_color = new THREE.Color(0xD3D3D3);
     var sphere = createSphere(5, 24, 24, sphere_color);
     sphere.position.y = 4;
-    //focus spotlight on the sphere
     addSpotlight(sphere);
     group.add(sphere);
 }
 
 function createFloor() {
-   //create floor and add floor to the objects group
-   var floor_material = new THREE.MeshLambertMaterial();
-   floor_material.color = new THREE.Color(0.7,0.7,0.7);
-   floor_material.side = THREE.DoubleSide;
-   var floor_geo = new THREE.PlaneGeometry(50,50,200,500);
-   var floor = new THREE.Mesh(floor_geo,floor_material);
-   floor.position.y = -8;
-   floor.rotation.x = Math.PI/2;
-   floor.castShadow = false;
-   group.add(floor);
+    var floor_material = new THREE.MeshLambertMaterial();
+    floor_material.color = new THREE.Color(0.7, 0.7, 0.7);
+    floor_material.side = THREE.DoubleSide;
+    var floor_geometry = new THREE.PlaneGeometry(50, 50, 200, 200);
+    var floor = new THREE.Mesh(floor_geometry, floor_material);
+    floor.position.y = -8;
+    floor.rotation.x = Math.PI / 2;
+    floor.castShadow = false;
+    group.add(floor);
 }
 
 function addSpotlight(object) {
-   //create a spotlight and add the spotlight to the objects group
-   var spotlight = new THREE.SpotLight(new THREE.Color(0,1,1),5);
-   spotlight.position.y = 25;
-   spotlight.angle = Math.PI/12;
-   spotlight.penumbra = 0.1;
-   spotlight.castShadow = false;
-   spotlight.target = object;
-   group.add(spotlight);
-   var spotLightHelper = new THREE.SpotLightHelper(spotlight);
-   group.add(spotLightHelper);
+    var spotlight = new THREE.SpotLight(new THREE.Color(0, 1, 1), 0.5);
+    spotlight.position.y = 30;
+    spotlight.angle = Math.PI / 12;
+    spotlight.penumbra = 0.1;
+    spotlight.castShadow = false;
+    spotlight.target = object;
+    group.add(spotlight);
+    var spotlightHelper = new THREE.SpotLightHelper(spotlight);
+    group.add(spotlightHelper);
 }
 
 function addShapes() {

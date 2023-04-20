@@ -1,6 +1,6 @@
 setScene();
-createcubes();
+createCubes();
 addShapes();
 animate();
 animateColor();
-window.addEventListener('resize',resizeScene);
+window.addEventListener('resize', resizeScene);

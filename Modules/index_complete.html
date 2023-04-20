@@ -1,0 +1,150 @@
+<html>
+  <head>
+    <title>Simple Geometry Test</title>
+  </head>
+
+  <style>
+  body {margin: 0;}
+  canvas {width: 100%; height: 100%;}
+  </style>
+
+  <body>
+    <!--include the three.js library-->
+   <script src="js/three.js"> </script>
+   <!--and the trackball code-->
+   <script src="js/OrbitControls.js"> </script>
+
+    <style>
+    			body {
+    				font-family: Monospace;
+    				background-color: #000;
+    				color: #fff;
+    				margin: 0px;
+    				overflow: hidden;
+    			}
+    			#info {
+    				position: absolute;
+    				top: 10px;
+    				width: 100%;
+    				text-align: center;
+    			}
+    </style>
+
+    <div id="info">
+      <p>This is the first example using threeJS<br>
+      left button to rotate the scene, scroll to zoom in/out</p>
+    </div>
+    <script>
+
+    //create the scene
+    var scene = new THREE.Scene( );
+    var ratio = window.innerWidth/window.innerHeight;
+    //create the perspective camera
+    //for parameters see https://threejs.org/docs/#api/cameras/PerspectiveCamera
+    var camera = new THREE.PerspectiveCamera(45,ratio,0.1,1000);
+
+    //set the camera position
+    camera.position.set(0,0,15);
+    // and the direction
+	  camera.lookAt(0,0,1);
+
+    //create the webgl renderer
+    var renderer = new THREE.WebGLRenderer( );
+
+    //set the size of the rendering window
+    renderer.setSize(window.innerWidth,window.innerHeight);
+
+    //add the renderer to the current document
+    document.body.appendChild(renderer.domElement );
+
+    //create the material of the cube (basic material)
+    var material_cube = new THREE.MeshLambertMaterial();
+    //set the color of the cube
+    material_cube.color=  new THREE.Color(1,1,1);
+
+    var stone_texture = new THREE.TextureLoader().load('labs/lab8/img/text.png');
+    material_cube.map= stone_texture;
+
+    //then set the renderer to wireframe
+    material_cube.wireframe=false;
+
+    //create the mesh of a cube
+    var geometry_cube = new THREE.BoxGeometry(5,5,5);
+    var cube_mesh = new THREE.Mesh(geometry_cube,material_cube);
+    cube_mesh.position.x-=5;
+    scene.add(cube_mesh);
+
+    var geometry_sphere = new THREE.SphereGeometry(2.5,32,32);
+    var sphere_mesh = new THREE.Mesh(geometry_sphere,material_cube);
+    sphere_mesh.position.x+=5;
+    scene.add(sphere_mesh);
+
+        //create the material of the floor (basic material)
+        var material_floor = new THREE.MeshPhongMaterial();
+        material_floor.shininess=100;
+        material_floor.color=  new THREE.Color(0.8,0.9,0.3);
+
+        var normal_map = new THREE.TextureLoader().load('labs/lab8/img/normal_map.gif');
+        normal_map.wrapS = normal_map.wrapT = THREE.RepeatWrapping;
+        normal_map.repeat=new THREE.Vector2(4,4);
+
+        material_floor.normalMap= normal_map;
+
+        var geometry_floor = new THREE.BoxGeometry(30,0.5,30);
+        var meshFloor= new THREE.Mesh( geometry_floor, material_floor );
+        meshFloor.position.y-=10;
+        meshFloor.receiveShadow=true;
+        scene.add( meshFloor );
+
+  //////////////
+	// CONTROLS //
+	//////////////
+
+	// move mouse and: left   click to rotate,
+	//                 middle click to zoom,
+	//                 right  click to pan
+  // add the new control and link to the current camera to transform its position
+
+  controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+ //then add ambient
+
+ var cameralight = new THREE.PointLight( new THREE.Color(1,1,1), 1 );
+ camera.add( cameralight );
+ scene.add(camera);
+
+
+  //final update loop
+  var MyUpdateLoop = function ( )
+  {
+    //call the render with the scene and the camera
+    renderer.render(scene,camera);
+
+    controls.update();
+
+    //finally perform a recoursive call to update again
+    //this must be called because the mouse change the camera position
+    requestAnimationFrame(MyUpdateLoop);
+
+  };
+
+  requestAnimationFrame(MyUpdateLoop);
+
+  //this fucntion is called when the window is resized
+  var MyResize = function ( )
+  {
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    renderer.setSize(width,height);
+    camera.aspect = width/height;
+    camera.updateProjectionMatrix();
+    renderer.render(scene,camera);
+  };
+
+  //link the resize of the window to the update of the camera
+  window.addEventListener( 'resize', MyResize);
+
+
+    </script>
+  </body>
+</html>

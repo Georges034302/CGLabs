@@ -1,20 +1,35 @@
 /* global subd, THREE, size, scene, material_tissue, dat */
-//Setup the golbal varibales
+var ambientlight;
+var cameralight;
+
+//STEP 1: load models folder from path using MTLLoader
 
 
-//load models folder from path using MTLLoader
 
-
-
-//Define a function to load a texture object and traverse the texture geometry 
+//Step 2: Load a texture object and traverse the texture geometry 
 //then apply the combined matrices to the mesh
+function loadTexture(loader, object) {
+
+}
 
 
-
-//Define a function to create object from MTL model stored in file
-
-
-//Define a function to add camera light
+//Step 3: Create object from MTL model stored in file
+function createObj() {
 
 
-//Define a function to add all shapes to the scene
+}
+
+function addLight() {
+    cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 0.5);
+    cameralight.castShadow = true;
+    ambientlight = new THREE.AmbientLight(new THREE.Color(1, 1, 1), 0.2);
+    camera.add(cameralight);
+}
+
+//Add all shapes to the scene
+function addShapes() {
+    createObj();
+    addLight();
+    scene.add(camera);
+    scene.add(ambientlight);
+}

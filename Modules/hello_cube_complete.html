@@ -1,0 +1,93 @@
+<html>
+  <head>
+    <title>Simple Geometry Test</title>
+  </head>
+
+  <style>
+  body {margin: 0;}
+  canvas {width: 100%; height: 100%;}
+  </style>
+
+  <body>
+    <!--include the three.js library-->
+    <script src="js/three.js"> </script>
+
+    <style>
+    			body {
+    				font-family: Monospace;
+    				background-color: #000;
+    				color: #fff;
+    				margin: 0px;
+    				overflow: hidden;
+    			}
+    			#info {
+    				position: absolute;
+    				top: 10px;
+    				width: 100%;
+    				text-align: center;
+    			}
+    </style>
+
+    <div id="info">
+      <p>This is the first example using threeJS</p>
+    </div>
+    <script>
+
+    //create the scene
+    var scene = new THREE.Scene( );
+    var ratio = window.innerWidth/window.innerHeight;
+    //create the perspective camera
+    //for parameters see https://threejs.org/docs/#api/cameras/PerspectiveCamera
+    var camera = new THREE.PerspectiveCamera(45,ratio,0.1,1000);
+
+    //create the orthographics camera
+    //for parameters see https://threejs.org/docs/#api/cameras/OrthographicCamera
+    //var scale=15/(window.innerWidth+window.innerHeight);
+    //var camera = new THREE.OrthographicCamera( -window.innerWidth*scale, window.innerWidth*scale, window.innerHeight*scale, -window.innerHeight*scale, 0.1, 1000 );
+
+    //set the camera position
+    camera.position.set(0,0,15);
+    // and the direction
+	  camera.lookAt(0,0,1);
+
+    //create the webgl renderer
+    var renderer = new THREE.WebGLRenderer( );
+
+    //set the size of the rendering window
+    renderer.setSize(window.innerWidth,window.innerHeight);
+
+    //add the renderer to the current document
+    document.body.appendChild(renderer.domElement );
+
+    //create the material of the cube (basic material)
+    var material_cube = new THREE.MeshBasicMaterial();
+    //set the color of the cube
+    material_cube.color=  new THREE.Color(0,1,0);
+    //then set the renderer to wireframe
+    material_cube.wireframe=true;
+    //create the mesh of a cube
+    var geometry_cube = new THREE.BoxGeometry(2,2,2);
+    var cube = new THREE.Mesh(geometry_cube,material_cube);
+
+    //create the material of the tetrahedron (basic material)
+    var material_tetra = new THREE.MeshBasicMaterial();
+    //set the color of the tetrahedron
+    material_tetra.color=  new THREE.Color(0,0,1);
+    //then set the renderer to wireframe
+    material_tetra.wireframe=true;
+    var geometry_tetra = new THREE.TetrahedronGeometry(2, 0);
+    var tetra = new THREE.Mesh(geometry_tetra,material_tetra);
+
+    //translate base position of the created objects
+    cube.position.x-=2;
+    tetra.position.x+=2;
+
+    //and add to the scene
+    scene.add(cube);
+    scene.add(tetra);
+
+    renderer.render(scene,camera);
+
+    </script>
+  </body>
+</html>

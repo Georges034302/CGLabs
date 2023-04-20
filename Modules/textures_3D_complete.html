@@ -1,0 +1,159 @@
+<html>
+
+    <head>
+        <title>Simple Geometry Test</title>
+    </head>
+
+    <style>
+        body {
+            margin: 0;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <body>
+        <!--include the three.js library-->
+        <script src="js/three.js">
+        </script>
+        <!--and the trackball code-->
+        <script src="js/OrbitControls.js">
+        </script>
+        <!--the model loader-->
+        <script src="js/OBJLoader.js"></script>
+        <script src="js/MTLLoader.js"></script>
+        <style>
+            body {
+                font-family: Monospace;
+                background-color: #000;
+                color: #fff;
+                margin: 0px;
+                overflow: hidden;
+            }
+            
+            #info {
+                position: absolute;
+                top: 10px;
+                width: 100%;
+                text-align: center;
+            }
+        </style>
+
+        <div id="info">
+            <p>This is the first example using threeJS<br> left button to rotate the scene, scroll to zoom in/out</p>
+        </div>
+        <script>
+            //create the scene
+            var scene = new THREE.Scene();
+            var ratio = window.innerWidth / window.innerHeight;
+            //create the perspective camera
+            //for parameters see https://threejs.org/docs/#api/cameras/PerspectiveCamera
+            var camera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000);
+
+            //set the camera position
+            camera.position.set(0, 0, 15);
+            // and the direction
+            camera.lookAt(0, 0, 1);
+
+            //create the webgl renderer
+            var renderer = new THREE.WebGLRenderer();
+
+            //set the size of the rendering window
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            //add the renderer to the current document
+            document.body.appendChild(renderer.domElement);
+
+
+            //////////////
+            // CONTROLS //
+            //////////////
+
+            // move mouse and: left   click to rotate,
+            //                 middle click to zoom,
+            //                 right  click to pan
+            // add the new control and link to the current camera to transform its position
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            //then add ambient
+            //ambient lighting
+            // var ambientlight = new THREE.AmbientLight(new THREE.Color(1,1,1),0.2);
+            // scene.add(ambientlight);
+
+            var cameralight = new THREE.PointLight(new THREE.Color(1, 1, 1), 1);
+            camera.add(cameralight);
+            scene.add(camera);
+
+
+            //final update loop
+            var MyUpdateLoop = function() {
+                //call the render with the scene and the camera
+                renderer.render(scene, camera);
+
+                controls.update();
+
+                //finally perform a recoursive call to update again
+                //this must be called because the mouse change the camera position
+                requestAnimationFrame(MyUpdateLoop);
+
+            };
+
+            requestAnimationFrame(MyUpdateLoop);
+
+            //this fucntion is called when the window is resized
+            var MyResize = function() {
+                var width = window.innerWidth;
+                var height = window.innerHeight;
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                renderer.render(scene, camera);
+            };
+
+            //link the resize of the window to the update of the camera
+            window.addEventListener('resize', MyResize);
+
+
+            var mtlLoader = new THREE.MTLLoader();
+            mtlLoader.setTexturePath("models/");
+            mtlLoader.setPath("models/");
+
+            mtlLoader.load("Librarian.obj.mtl", function(materials) {
+                materials.preload();
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setPath("models/");
+                objLoader.setMaterials(materials);
+
+                objLoader.load("Librarian.obj", function(mesh) {
+                    var CenterBB;
+                    var SizeBB;
+                    mesh.traverse(function(child) {
+                        if (child instanceof THREE.Mesh) {
+                            var mygeometry = new THREE.Geometry().fromBufferGeometry(child.geometry);
+                            mygeometry.computeBoundingBox();
+                            child.material.color = new THREE.Color(1, 1, 1);
+                            CenterBB = mygeometry.boundingBox.getCenter();
+                            SizeBB = mygeometry.boundingBox.getSize();
+                        }
+                    });
+                    scene.add(mesh);
+                    var sca = new THREE.Matrix4();
+                    var tra = new THREE.Matrix4();
+                    var combined = new THREE.Matrix4();
+
+                    sca.makeScale(20 / SizeBB.length(), 20 / SizeBB.length(), 20 / SizeBB.length());
+                    tra.makeTranslation(-CenterBB.x, -CenterBB.y, -CenterBB.z);
+                    combined.multiply(sca);
+                    combined.multiply(tra);
+
+                    mesh.applyMatrix(combined);
+                });
+            });
+        </script>
+    </body>
+
+</html>

@@ -4,4 +4,4 @@ createShapes();
 addShapes();
 animate();
 animateColor();
-window.addEventListener('resize',resizeScene);
+window.addEventListener('resize', resizeScene);

@@ -5,34 +5,33 @@
 //Rotation positions x and y are determined using the distance from earth multiplied by cos and sin of alpha angle
 
 var speed = 0.01;
-function rotate(object){
+
+function rotate(object) {
     object.rotation.x += speed;
     object.rotation.z += speed;
 }
 
-function changeColor(object){
+function changeColor(object) {
     var color = new THREE.Color(0xffffff);
-    color.setHex(Math.random()*0xffffff);
+    color.setHex(Math.random() * 0xffffff);
     object.material.color = color;
 }
 
-function animate(){
-    renderer.render(scene,camera);
+function animate() {
+    renderer.render(scene, camera);
     cubes.forEach(rotate); //reference call the rotate function for every object in the array
-    group.rotation.y += speed;  
-    
+    group.rotation.y += speed;
+
     requestAnimationFrame(animate);
 }
 
 
-function animateColor(){
-    renderer.render(scene,camera);
+function animateColor() {
+    renderer.render(scene, camera);
     cubes.forEach(changeColor);
-    setTimeout( function() {
+    setTimeout(function() {
 
-        requestAnimationFrame( animateColor );
+        requestAnimationFrame(animateColor);
 
-    }, 1000 / 10 );
-
-
+    }, 1000 / 10);
 }

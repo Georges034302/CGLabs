@@ -8,20 +8,19 @@ var time = 0;
 var delta = 0;
 
 
-function animateWave() {
-    //Animate wave periodically
+function animate() {
     interval += velocity;
     let pos = tissue.geometry.getAttribute('position');
-    for(let i=0; i < pos.count;i++){
-        let currentPos = new THREE.Vector3();
-        currentPos.x = pos.getX(i);
-        currentPos.y = pos.getY(i);
-        currentPos.z = pos.getZ(i);
-        let len = period * currentPos.length()/size;
-        currentPos.z = heightWave*size*Math.cos(len+interval);
-        pos.setZ(i,currentPos.z);
+    for (let i = 0; i < pos.count; i++) {
+        let currP = new THREE.Vector3();
+        currP.x = pos.getX(i);
+        currP.y = pos.getY(i);
+        currP.z = pos.getZ(i);
+        let len = period * currP.length() / size;
+        currP.z = heightWave * size * Math.cos(len + interval);
+        pos.setZ(i, currP.z);
     }
-    pos.needsUpdate = true;
+    pos.needsUpdate = true
     tissue.geometry.computeVertexNormals();
 }
 
@@ -33,10 +32,10 @@ function buildGui() {
         color: material_tissue.color.getHex(),
         velocity_tissue: velocity
     }
-    gui.addColor(params,'color').onChange(function(val){
+    gui.addColor(params, 'color').onChange(function(val) {
         material_tissue.color.setHex(val);
     });
-    gui.add(params,'velocity_tissue',0,0.5).onChange(function(val){
+    gui.add(params, 'velocity_tissue', 0, 0.5).onChange(function(val) {
         velocity = val;
     });
     gui.open();
@@ -45,7 +44,7 @@ function buildGui() {
 function bounce(object) {
     delta = clock.getDelta();
     time += delta;
-    object.position.z = 1.5 * Math.abs(Math.sin(time*3))*2;
+    object.position.z = 1.5 + Math.abs(Math.sin(time * 3)) * 2;
 }
 
 //final update loop
@@ -54,5 +53,5 @@ var updateLoop = function() {
     controls.update();
     renderer.render(scene, camera);
     requestAnimationFrame(updateLoop);
-    animateWave();
+    animate();
 };
