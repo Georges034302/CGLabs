@@ -29,8 +29,8 @@ function createCamera() {
                                                 Math.ceil(width_cam), 
                                                 Math.ceil(height_cam));
             
-            subcam.position.x = (x*5) - 0.5;
-            subcam.position.y = (y*5) - 0.5;
+            subcam.position.x = (x*3) - 0.5;
+            subcam.position.y = (y*3) - 0.5;
             subcam.position.z = 5;
             subcam.position.multiplyScalar(2);
             subcam.lookAt(0,0,0);
