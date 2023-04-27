@@ -1,5 +1,5 @@
 
-var speed = 0.005;
+var speed = 0.05;
 
 //knot rotation 
 function rotateKnot(){
