@@ -1,4 +1,4 @@
-### Packages Required for Lab01
+### Packages Required for Lab02
 
 `
 <script src="js/three.js"></script>
