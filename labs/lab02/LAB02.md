@@ -3,7 +3,7 @@
 * Create Earth-Moon system
 * Earth rotates anti clock-wise
 * Moon is tidally-locked with earth
-* Moon spins clock wise around the earth
+* Moon rotates clock wise around the earth
 * Add mouse control to the scene
 
 
