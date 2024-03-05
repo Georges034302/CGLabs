@@ -3,5 +3,7 @@ setScene();
 addShapes();
 
 animate_earth();
-animate_moon();
+animate_moons();
+
+animate_color();
 window.addEventListener('resize', resizeScene);

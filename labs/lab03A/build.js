@@ -32,7 +32,7 @@ function createCubes() {
         var rot = new THREE.Matrix4();
         var tra = new THREE.Matrix4();
         var combined = new THREE.Matrix4();
-        sca.makeScale(0.5, 3, 1.5);
+        sca.makeScale(10, 3, 1.5);
         rot2.makeRotationZ(i * (Math.PI / n));
         tra.makeTranslation(10, 5, 0);
         rot.makeRotationY(i * (2 * Math.PI / n));

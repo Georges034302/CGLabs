@@ -7,15 +7,23 @@ function animate_earth() {
     renderer.render(scene, camera);
 }
 
-const d = 12;
-var alpha = 0;
-var dalpha = 2*Math.PI/1000;
-
-function animate_moon(){
-    requestAnimationFrame(animate_moon);
-    moon.position.y = 1;
-    alpha +=dalpha;
-    moon.position.x = d*Math.cos(alpha);
-    moon.position.z = -d*Math.sin(alpha);
+function animate_moons(){
+    requestAnimationFrame(animate_moons);
+    group.rotation.y += speed;
     renderer.render(scene, camera);
+}
+
+function change_color(object){
+    var color = new THREE.Color(0xffffff);
+    color.setHex(Math.random()*0xffffff);
+    object.material.color = color;
+}
+
+function animate_color(){
+    renderer.render(scene, camera);
+    moons.forEach(change_color);
+    setTimeout(function(){
+        requestAnimationFrame(animate_color);
+    },100
+    );
 }
