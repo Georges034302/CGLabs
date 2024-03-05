@@ -11,27 +11,10 @@ function rotate(object) {
     object.rotation.z += speed;
 }
 
-function changeColor(object) {
-    var color = new THREE.Color(0xffffff);
-    color.setHex(Math.random() * 0xffffff);
-    object.material.color = color;
-}
-
 function animate() {
     renderer.render(scene, camera);
     cubes.forEach(rotate); //reference call the rotate function for every object in the array
     group.rotation.y += speed;
 
     requestAnimationFrame(animate);
-}
-
-
-function animateColor() {
-    renderer.render(scene, camera);
-    cubes.forEach(changeColor);
-    setTimeout(function() {
-
-        requestAnimationFrame(animateColor);
-
-    }, 1000 / 10);
 }
