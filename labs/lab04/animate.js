@@ -22,8 +22,4 @@ function change_color(object){
 function animate_color(){
     renderer.render(scene, camera);
     moons.forEach(change_color);
-    setTimeout(function(){
-        requestAnimationFrame(animate_color);
-    },100
-    );
 }

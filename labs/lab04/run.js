@@ -1,5 +1,5 @@
 setScene();
-
+setLight();
 addShapes();
 
 animate_earth();
