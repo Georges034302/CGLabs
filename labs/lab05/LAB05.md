@@ -1,7 +1,7 @@
 ## Lab 5 Objectives
 * Use the Earth Sphere from previous lab
 * Remove all animations
-* Add spolight to the scene
+* Add spotlight to the scene
 * Add a floor to the scene
 * Ensure that the earth is casting shadow to the floor
   
