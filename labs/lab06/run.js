@@ -1,6 +1,7 @@
 setScene();
 addShapes();
-// Load PLY model from source
+loadModel("/models/chopper.ply");
 // Add Mouse Listener in the HTML Document
+document.addEventListener('mousedown',onDocumentMouseDown,false);
 animate();
 window.addEventListener('resize', resizeScene);

@@ -11,6 +11,32 @@ function loadModel(model) {
     // Determine the model geometry, material, shape size and color of the PLY (from model code)
     // Apply Scaling and Translation to the model
     // Add the model to the scene
+    loader.load(model,function(geometry){
+        geometry.computeVertexNormals();
+        geometry.computeBoundingBox();
+
+        var center = geometry.boundingBox.getCenter();
+        var size = geometry.boundingBox.getSize();
+        var min = geometry.boundingBox.min;
+
+        var sca = new THREE.Matrix4();
+        var tra = new THREE.Matrix4();
+
+        var ScaleFactor = 5/size.length();
+        sca.makeScale(ScaleFactor,ScaleFactor,ScaleFactor);
+        tra.makeTranslation(-center.x,-center.y,-min.z); //Adjust to place object on the floor
+
+        var material = new THREE.MeshPhongMaterial();
+        material.color = new THREE.Color(0.6,0.2,0.4);
+        material.shininess = 100;
+
+        mesh = new THREE.Mesh(geometry,material);
+        mesh.applyMatrix(tra);
+        mesh.applyMatrix(sca);
+
+        mesh.name = "loaded_mesh";
+        scene.add(mesh);
+    });
 }
 
 //Add Light
