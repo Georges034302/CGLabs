@@ -7,9 +7,9 @@
   
 ### Packages Required for Lab06
 
-`
+```
 <script src="js/three.js"></script>
 <script src="js/OrbitControls.js"> </script>
 <script src="js/PLYLoader.js"></script>
 
-`
+```
