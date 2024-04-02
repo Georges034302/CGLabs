@@ -74,14 +74,21 @@ function addLight() {
 
 //Define a function to create and return a sphere on top of the mesh center
 function createSphere(radius, hlines, vlines, color) {
-
+    var material = new THREE.MeshPhongMaterial();
+    material.color = new THREE.Color(color);
+    material.wireframe = true;
+    material.shininess = 100;
+    var geometry = new THREE.SphereGeometry(radius,hlines,vlines);
+    var s = new THREE.Mesh(geometry,material);
+    s.position.z = 2;
+    return s;
 }
 
-
+var sphere = createSphere(1.5,25,25,0xff00ff);
 //Add all shapes to the scene
 function addShapes() {
     scene.add(createMesh());
-
+    scene.add(sphere);
     addLight();
     scene.add(camera);
     scene.add(ambientlight);
