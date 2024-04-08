@@ -11,7 +11,6 @@ var cameralight;
 /// Code Step 1 here ///
 
 
-
 /*
     Step 2: Load a texture object and determine its attributes
     a - determine object color, center and size
@@ -34,6 +33,7 @@ function addLight() {
     ambientlight = new THREE.AmbientLight(new THREE.Color(1, 1, 1), 0.2);
     camera.add(cameralight);
 }
+
 
 //Add all shapes to the scene
 function addShapes() {

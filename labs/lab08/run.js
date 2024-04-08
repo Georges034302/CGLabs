@@ -1,4 +1,4 @@
 setScene();
-window.addEventListener('resize', MyResize);
 addShapes();
 animate();
+window.addEventListener('resize', MyResize);
