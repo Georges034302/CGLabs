@@ -6,7 +6,7 @@
 * Load running Mario GIF: mario.gif
 * Load flying Ghost GIF: ghost.gif
 * Apply the background: background.png (ensure that the background moves with running mario)
-* Add Key-Controls (Refer to mariobros.GIF example):
+* Add Key-Controls (Refer to mariobros.gif example):
   * Play
   * Pause
   * Record
