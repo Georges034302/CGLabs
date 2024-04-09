@@ -9,7 +9,9 @@ var cameralight;
     b - set the loader models path
 */
 /// Code Step 1 here ///
-
+var mtlLoader = new THREE.MTLLoader();
+mtlLoader.setTexturePath("models/");
+mtlLoader.setPath("models/");
 
 /*
     Step 2: Load a texture object and determine its attributes
@@ -18,6 +20,28 @@ var cameralight;
 */
 function loadTexture(loader, object) {
     /// Code Step 2 here ///
+    loader.load(object,function(mesh){
+        var size;
+        var center;
+        mesh.traverse(function(child){
+            if(child instanceof THREE.Mesh){
+                var geom = new THREE.Geometry().fromBufferGeometry(child.geometry);
+                geom.computeBoundingBox();
+                child.material.color = new THREE.Color(1,1,1);
+                center = geom.boundingBox.getCenter();
+                size = geom.boundingBox.getSize();
+            }
+        });
+        scene.add(mesh);
+        var sca = new THREE.Matrix4();
+        var tra = new THREE.Matrix4();
+        var combined = new THREE.Matrix4();
+        sca.makeScale(10/size.length(),10/size.length(),10/size.length());
+        tra.makeTranslation(-center.x,-center.y, -center.z);
+        combined.multiply(sca);
+        combined.multiply(tra);
+        mesh.applyMatrix(combined);
+    });
 }
 
 /*
@@ -25,6 +49,13 @@ function loadTexture(loader, object) {
 */
 function createObj() {
    /// Code Step 2 here ///
+   mtlLoader.load("Librarian.obj.mtl",function(materials){
+    materials.preload();
+    var objLoader = new THREE.OBJLoader();
+    objLoader.setPath("models/");
+    objLoader.setMaterials(materials);
+    loadTexture(objLoader,"Librarian.obj")
+   });
 }
 
 function addLight() {
