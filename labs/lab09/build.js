@@ -15,7 +15,7 @@ function createFloor() {
     return floorMesh;
 }
 
-//Step 2: create a knot
+//Step 2: generate a TorusKnot object
 function createKnot(){
 
 }
