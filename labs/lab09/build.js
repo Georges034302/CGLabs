@@ -17,17 +17,23 @@ function createFloor() {
 
 //Step 2: generate a TorusKnot object
 function createKnot(){
-
+    var geo_knot = new THREE.TorusKnotGeometry();
+    var material_knot = new THREE.MeshPhongMaterial();
+    material_knot.color = new THREE.Color(0.8,1,1);
+    var torus_knot = new THREE.Mesh(geo_knot,material_knot);
+    return torus_knot;
 }
 
 camera = createCamera();
 renderer = createRenderer();
 floor = createFloor();
+torusKnot = createKnot();
 
 //Add all shapes to the scene
 function addShapes() {
     scene.add(camera);
     scene.add(floor);   
+    scene.add(torusKnot);
 }
 
 
