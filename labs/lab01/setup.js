@@ -14,14 +14,7 @@ var renderer;
  */
 function setScene() {
    // code goes here
-   scene = new THREE.Scene();
-   var ratio = window.innerWidth / window.innerHeight;
-   camera = new THREE.PerspectiveCamera(45,ratio,0.1,1000);
-   camera.position.set(10,10,15);
-   camera.lookAt(0,0,5);
-   renderer = new THREE.WebGLRenderer();
-   renderer.setSize(window.innerWidth,window.innerHeight);
-   document.body.appendChild(renderer.domElement);
+   
 }
 
 /* Define the resize screen function
@@ -33,10 +26,5 @@ function setScene() {
  */
 var resizeScene = function() {
     // code goes here
-    var height = window.innerHeight;
-    var width = window.innerWidth;
-    renderer.setSize(width,height);
-    camera.aspect = width/height;
-    camera.updateProjectionMatrix();
-    renderer.render(scene,camera);
+   
 };
