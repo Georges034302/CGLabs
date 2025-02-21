@@ -2,30 +2,40 @@
 
 
 
-//Create a cube using variable w, h, d
+/* Define the create cube function
+ * - create a material object (type MeshBasicMaterial)
+ * - set the color for the material object (r, g, b)
+ * - set the wireframe for the material object to true
+ * - create the cube geometry box object (w, h, d)
+ * - create a cube object from the geometry and material
+ * - the function returns a cube object
+ */
 function createCube(w, h, d, r, g, b) {
-    var material = new THREE.MeshBasicMaterial();
-    material.color = new THREE.Color(r, g, b);
-    material.wireframe = true;
-    var geometry_cube = new THREE.BoxGeometry(w, h, d);
-    var cube = new THREE.Mesh(geometry_cube, material);
-    return cube;
+    // code goes here
 }
 
-//Create a sphere using variable radius, vertical lines, horizontal lines
+/* Define the create sphere function
+ * - create a material object (type MeshBasicMaterial)
+ * - set the color for the material object (r, g, b)
+ * - set the wireframe for the material object to true
+ * - create the sphere geometry object (radius, hlines, vlines)
+ * - create a sphere object from the geometry and material
+ * - the function returns a sphere object
+ */
 function createSphere(radius, hlines, vlines, r, g, b) {
-    var material = new THREE.MeshBasicMaterial();
-    material.color = new THREE.Color(r, g, b);
-    material.wireframe = true;
-    var geometry_sphere = new THREE.SphereGeometry(radius, hlines, vlines);
-    var sphere = new THREE.Mesh(geometry_sphere, material);
-    return sphere;
+    // code goes here
 }
 
-var cube = createCube(2, 2, 2, 0, 1, 0);
-var sphere = createSphere(2, 32, 32, 1, 0, 1);
+/*
+ * Create a cube
+ * Create a sphere
+ * Ensure that the cube is embedded inside the sphere
+ */
 
+/* Define the add shapes function
+ * - add the cube object to the scene
+ * - add the sphere object to the scene
+ */
 function addShapes() {
-    scene.add(cube);
-    scene.add(sphere);
+    // code goes here
 }
