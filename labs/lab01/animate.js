@@ -7,8 +7,12 @@
  */
 function animate_cube() {
    // code goes here
-   
-}
+   cube.rotation.x += 0.04;
+   cube.rotation.y += 0.04;
+   cube.position.z = 3;
+   renderer.render(scene,camera);
+   requestAnimationFrame(animate_cube);
+ }
 
 /* Define the animate sphere function
  * - update the sphere x-rotation with 0.004 ratio
@@ -19,5 +23,9 @@ function animate_cube() {
  */
 function animate_sphere() {
     // code goes here
-    
+    sphere.rotation.x += 0.004;
+    sphere.rotation.y += 0.008;
+    sphere.position.z = 3;
+    renderer.render(scene,camera);
+    requestAnimationFrame(animate_sphere);
 }
