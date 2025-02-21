@@ -6,11 +6,7 @@
  * - request animation frame calling the function into infinite loop
  */
 function animate_cube() {
-    requestAnimationFrame(animate_cube);
-    cube.rotation.x += 0.04;
-    cube.rotation.y += 0.04;
-    cube.position.z = 3;
-    renderer.render(scene, camera);
+   // code goes here
 }
 
 /* Define the animate sphere function
@@ -21,10 +17,5 @@ function animate_cube() {
  * - request animation frame calling the function into infinite loop
  */
 function animate_sphere() {
-    requestAnimationFrame(animate_sphere);
-    sphere.rotation.x += 0.004;
-    sphere.rotation.y += 0.008;
-    sphere.position.z = 3;
-
-    renderer.render(scene, camera);
+    // code goes here
 }
