@@ -22,7 +22,6 @@ function setScene() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     // Add orbital controls to the scene (camera, renderer)
-    controls = new THREE.OrbitControls(camera,renderer.domElement);
 }
 
 /* Define the resize screen function
