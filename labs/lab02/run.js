@@ -5,3 +5,8 @@
  * - animate_moon
  * - add window event listener to trigger the resize function
  */
+setScene();
+addShapes();
+animate_earth();
+animate_moon();
+window.addEventListener('resize',resizeScene);
