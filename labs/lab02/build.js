@@ -21,7 +21,7 @@ function createSphere(radius, hlines, vlines, color) {
  * Create moon sphere (radius=1,hlines=32,vlines=32,color=white)
  */
 var earth = createSphere(4,44,44,"#00FF00");
-var moon = createSphere(1,32,32,"C0C0C0");
+var moon = createSphere(2,32,32,"C0C0C0");
 
 /* Define the add shapes function
  * - add the earth to the scene
