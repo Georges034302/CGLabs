@@ -1,34 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/three.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <link rel="stylesheet" href="css/layout.css" />
+    <title>CG Labs</title>
+  </head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="js/three.js"></script>
-        <script src="js/OrbitControls.js"> </script>
-        <link rel="stylesheet" href="css/layout.css">
-        <title>CG Labs</title>
-    </head>
-
-    <body>
-        <div id="info">
-            <H1>Computer Graphics Demo</H1>
-        </div>
-        <script type='x-shader/x-vertex' id='vertexShader'>
-            attribute float alpha; varying float vAlpha; void main() { vAlpha = alpha; vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 ); gl_PointSize = 2.0; gl_Position = projectionMatrix * mvPosition; }
-        </script>
-
-        <script type='x-shader/x-fragment' id='fragmentShader'>
-
-            uniform vec3 color; varying float vAlpha; void main() { gl_FragColor = vec4( color, vAlpha ); }
-        </script>
-
-        <script src="labs/lab02/setup.js"></script>
-        <script src="labs/lab02/build.js"></script>
-        <script src="labs/lab02/animate.js"></script>
-        <script src="labs/lab02/run.js"></script>
-        
-    </body>
-
+  <body>
+    <script src="Assignments/31/setup.js"></script>
+    <script src="Assignments/31/build.js"></script>
+    <script src="Assignments/31/animate.js"></script>
+    <script src="Assignments/31/run.js"></script>
+  </body>
 </html>
