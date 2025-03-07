@@ -12,14 +12,14 @@ function createCube(w, h, d, color) {
     // code goes here
     var material = new THREE.MeshBasicMaterial();
     material.color = new THREE.Color(color);
-    material.wireframe = true;
+    //material.wireframe = true;
     var geometry = new THREE.BoxGeometry(w,h,d);
     var cube = new THREE.Mesh(geometry, material);
     return cube;
 }
 
 
-var n = 36;
+var n = 24;
 var cubes = [];
 const group = new THREE.Group();
 /* Define a function to create n-cubes and add the cubes to the group
@@ -48,7 +48,7 @@ function createCubes() {
 
         var combined = new THREE.Matrix4();
 
-        sca.makeScale(0.5, 3, 1.5);
+        sca.makeScale(0.5, 4, 2);
         rot2.makeRotationZ(i * (Math.PI / n));
         tra.makeTranslation(10, 5, 0);
         rot.makeRotationY(i * (2 * Math.PI / n));
