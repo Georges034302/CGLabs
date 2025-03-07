@@ -6,6 +6,8 @@ var speed = 0.01;
  */
 function rotate(object) {
     //code goes here
+    object.rotation.x += speed;
+    object.rotation.z += speed;
 }
 
 /* Define a function to animate the cubes group
@@ -16,6 +18,10 @@ function rotate(object) {
  */
 function animate() {
     //code goes here
+    cubes.forEach(rotate);
+    group.rotation.y += speed;
+    renderer.render(scene,camera);
+    requestAnimationFrame(animate);
 }
 
 /* Define a function to randomize object color
@@ -25,6 +31,9 @@ function animate() {
  */
 function changeColor(object) {
     //code goes here
+    var color = new THREE.Color(0xffffff);
+    color.setHex(Math.random() * 0xffffff);
+    object.material.color = color;
 }
 
 /* Define a function to animate the random color change and control the FPS
@@ -34,4 +43,11 @@ function changeColor(object) {
  */
 function animateColor() {
     //code goes here
+    cubes.forEach(changeColor);
+    renderer.render(scene,camera);
+    setTimeout(function(){
+        requestAnimationFrame(animateColor);
+    },1000/10);
+        
+    
 }
