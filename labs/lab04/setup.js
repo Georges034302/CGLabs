@@ -8,7 +8,14 @@ var controls;
 var cameraLight;
 var ambietLight;
 
-//Setup the 3 main components: scene, camera, renderer
+/* Define the setup screen function
+ * Setup the 3 main components: scene, camera, renderer
+ * - setup the scene ratio to entire window
+ * - create a perspective camera
+ * - create a WebGl renderer
+ * - append the renderer to the HTML document body
+ * - add controls to the scene
+ */
 function setScene() {
     scene = new THREE.Scene();
     var ratio = window.innerWidth / window.innerHeight;
@@ -21,14 +28,24 @@ function setScene() {
     controls = new THREE.OrbitControls(camera,renderer.domElement);
 }
 
+/* Define the set light function
+ * - create a PointLight with 1 intensity
+ * - add the point  light to the camera as camera light
+ * - create AmbientLight with 0.2 intensity
+ */
 function setLight(){
-    cameraLight = new THREE.PointLight(new THREE.Color(0xffffff),1);
-    camera.add(cameraLight);
-    ambietLight = new THREE.AmbientLight(new THREE.Color(0xffffff),0.8);
+    // code goes here
+
 }
 
 
-//Resize the scene and update the camera aspect to the screen ration
+/* Define the resize screen function
+ * - setup the scene width and height to the entire window
+ * - setup the renderer size to the width and height
+ * - set the camera ratio to width / height
+ * - update the camera projection matrix
+ * - render the view (scene, camera)
+ */
 var resizeScene = function() {
     var width = window.innerWidth;
     var height = window.innerHeight;

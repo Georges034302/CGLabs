@@ -13,6 +13,9 @@ function createSphere(radius, hlines, vlines,hex) {
     return sphere;
 }
 
+/*
+ * Updated function from Lab 3 to create n spheres
+ */
 function createMoons(n){
     for(let i=0;i<n;i++){
         var rot2 = new THREE.Matrix4();
@@ -34,11 +37,14 @@ function createMoons(n){
     }
 }
 
+/*
+ * create earth  (4, 32, 32, "#71706e");
+ * add earth to scene
+ * create 20 moons
+ * add the group to the scene
+ * add camera
+ * add ambient light
+ */
 function addShapes() {
-    earth = createSphere(4, 32, 32, "#71706e");
-    scene.add(earth);
-    createMoons(20);
-    scene.add(group);
-    scene.add(camera);
-    scene.add(ambietLight);
+    //code goes here
 }

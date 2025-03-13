@@ -47,7 +47,6 @@ function animateColor() {
     renderer.render(scene,camera);
     setTimeout(function(){
         requestAnimationFrame(animateColor);
-    },500);
-        
+    },500);       
     
 }
