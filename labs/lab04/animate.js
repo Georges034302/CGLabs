@@ -9,6 +9,9 @@ const speed = 0.003;
  */
 function animate_moons(){
     // code goes here
+    group.rotation.y += speed;
+    renderer.render(scene,camera);
+    requestAnimationFrame(animate_moons);
 }
 
 /* Define a function to randomize object color
@@ -18,6 +21,9 @@ function animate_moons(){
  */
 function change_color(object){
     // code goes here
+    var color = new THREE.Color(0xffffff);
+    color.setHex(Math.random() * 0xffffff);
+    object.material.color = color;
 }
 
 /* Define a function to animate the random color change and control the FPS
@@ -26,7 +32,13 @@ function change_color(object){
  * - Slow down the FPS (by controlling the requestAnimationFrame call)
  */
 function animate_color() {
-    //code goes here      
+    //code goes here  
+    moons.forEach(change_color);
+    renderer.render(scene,camera);
+    setTimeout(function(){
+        requestAnimationFrame(animate_color); 
+    },500);
+      
     
 }
 
@@ -47,4 +59,11 @@ var delta = 0;
  */
 function bounce() {
     // code goes here
+    delta = clock.getDelta();
+    time += delta;
+    earth.rotation.x = time * 4;
+    earth.position.y = 0.5 + Math.abs(Math.sin(time * 3)) * 5;
+    earth.position.z = Math.cos(time) * 10;
+    renderer.render(scene,camera);
+    requestAnimationFrame(bounce);
 }

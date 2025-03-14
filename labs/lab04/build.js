@@ -47,4 +47,10 @@ function createMoons(n){
  */
 function addShapes() {
     //code goes here
+    earth = createSphere (4, 32, 32, "#71706e");
+    scene.add(earth);
+    createMoons(20);
+    scene.add(group);
+    scene.add(camera);
+    scene.add(ambientLight);
 }

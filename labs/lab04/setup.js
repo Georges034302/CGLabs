@@ -6,7 +6,7 @@ var camera;
 var renderer;
 var controls;
 var cameraLight;
-var ambietLight;
+var ambientLight;
 
 /* Define the setup screen function
  * Setup the 3 main components: scene, camera, renderer
@@ -35,9 +35,10 @@ function setScene() {
  */
 function setLight(){
     // code goes here
-
+    cameraLight = new THREE.PointLight(new THREE.Color(1,1,1),1);
+    camera.add(cameraLight);
+    ambientLight = new THREE.AmbientLight(new THREE.Color(1,1,1,),1);
 }
-
 
 /* Define the resize screen function
  * - setup the scene width and height to the entire window
