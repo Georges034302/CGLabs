@@ -14,13 +14,13 @@ var earth;
 function createSphere(radius, hlines, vlines,hex) {
     // code goes here
     var material = new THREE.MeshPhongMaterial();
-    material.color = new THREE.Color(hex);
+    material.color = new THREE.Color(0.7,0.7,0.7);
     material.color.setHex(hex);
     material.wireframe = false;
     var geometry = new THREE.SphereGeometry(radius, hlines, vlines);
-    geometry.castShadow = true;
-    geometry.receiveShadow = false;
     var sphere = new THREE.Mesh(geometry, material);
+    sphere.castShadow = true;
+    sphere.receiveShadow = false;
     return sphere;
 }
 
@@ -33,7 +33,7 @@ function createSphere(radius, hlines, vlines,hex) {
  */
 function createSpotlight() {
     // code goes here
-    var spotlight = new THREE.SpotLight(0xffff00, 0.5);
+    var spotlight = new THREE.SpotLight(new THREE.Color(0xffff00), 0.5);
     spotlight.position.y = 18;
     spotlight.angle = Math.PI/12;
     spotlight.castShadow = true;
@@ -83,7 +83,7 @@ function createFloor() {
  */
 function addShapes() {
     // code goes here
-    earth = createSphere(4, 32, 32, "#ffffff");
+    earth = createSphere(4, 32, 32, 0x71706e);
     var floor = createFloor();
     spotlight = createSpotlight();
     var helper = createLightHelper();
