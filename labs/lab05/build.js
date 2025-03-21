@@ -13,6 +13,15 @@ var earth;
  */
 function createSphere(radius, hlines, vlines,hex) {
     // code goes here
+    var material = new THREE.MeshPhongMaterial();
+    material.color = new THREE.Color(hex);
+    material.color.setHex(hex);
+    material.wireframe = false;
+    var geometry = new THREE.SphereGeometry(radius, hlines, vlines);
+    geometry.castShadow = true;
+    geometry.receiveShadow = false;
+    var sphere = new THREE.Mesh(geometry, material);
+    return sphere;
 }
 
 /* Define a function to create a SpotLight
@@ -24,6 +33,11 @@ function createSphere(radius, hlines, vlines,hex) {
  */
 function createSpotlight() {
     // code goes here
+    var spotlight = new THREE.SpotLight(0xffff00, 0.5);
+    spotlight.position.y = 18;
+    spotlight.angle = Math.PI/12;
+    spotlight.castShadow = true;
+    return spotlight;
 }
 
 /* Define a function to create a light helper
@@ -32,6 +46,8 @@ function createSpotlight() {
  */
 function createLightHelper() {
     // code goes here
+    var helper = new THREE.SpotLightHelper(spotlight);
+    return helper;
 }
 
 /* Define a function to create a floor mesh
@@ -47,7 +63,16 @@ function createLightHelper() {
  */
 function createFloor() {
    // code goes here
-}
+   var material = new THREE.MeshLambertMaterial();
+   material.side = THREE.DoubleSide;
+   material.color = new THREE.Color("#ffffff");
+   var geometry = new THREE.PlaneGeometry(30,30,200, 200);
+   var floor = new THREE.Mesh(geometry, material);
+   floor.position.y = -8;
+   floor.rotation.x = Math.PI/2;
+   floor.castShadow = false;
+   floor.receiveShadow = true;
+   return floor;}
 
 /* update the addShapes as follows:
  * - create earth sphere (4, 32, 32, "#71706e");
@@ -58,4 +83,14 @@ function createFloor() {
  */
 function addShapes() {
     // code goes here
+    earth = createSphere(4, 32, 32, "#ffffff");
+    var floor = createFloor();
+    spotlight = createSpotlight();
+    var helper = createLightHelper();
+    scene.add(spotlight);
+    scene.add(helper);
+    scene.add(earth);
+    scene.add(floor);
+    scene.add(camera);
+    scene.add(ambientLight);
 }
