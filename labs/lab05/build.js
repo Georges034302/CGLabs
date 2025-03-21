@@ -14,8 +14,8 @@ var earth;
 function createSphere(radius, hlines, vlines,hex) {
     // code goes here
     var material = new THREE.MeshPhongMaterial();
-    material.color = new THREE.Color(0.7,0.7,0.7);
-    material.color.setHex(hex);
+    material.color = new THREE.Color(1,1,1);
+    material.color.set(hex)
     material.wireframe = false;
     var geometry = new THREE.SphereGeometry(radius, hlines, vlines);
     var sphere = new THREE.Mesh(geometry, material);
@@ -37,7 +37,8 @@ function createSpotlight() {
     spotlight.position.y = 18;
     spotlight.angle = Math.PI/12;
     spotlight.castShadow = true;
-    return spotlight;
+    return spotlight;   
+
 }
 
 /* Define a function to create a light helper
@@ -48,6 +49,7 @@ function createLightHelper() {
     // code goes here
     var helper = new THREE.SpotLightHelper(spotlight);
     return helper;
+
 }
 
 /* Define a function to create a floor mesh
@@ -63,16 +65,18 @@ function createLightHelper() {
  */
 function createFloor() {
    // code goes here
-   var material = new THREE.MeshLambertMaterial();
-   material.side = THREE.DoubleSide;
-   material.color = new THREE.Color("#ffffff");
-   var geometry = new THREE.PlaneGeometry(30,30,200, 200);
-   var floor = new THREE.Mesh(geometry, material);
-   floor.position.y = -8;
-   floor.rotation.x = Math.PI/2;
-   floor.castShadow = false;
-   floor.receiveShadow = true;
-   return floor;}
+    var material = new THREE.MeshLambertMaterial();
+    material.side = THREE.DoubleSide;
+    material.color = new THREE.Color(0x71706e);
+    var geometry = new THREE.PlaneGeometry(30,30,200,200);
+    var floor = new THREE.Mesh(geometry, material);
+    floor.position.y = -8;
+    floor.rotation.x = Math.PI/2;
+    floor.castShadow = false;
+    floor.receiveShadow = true;
+    return floor;
+
+}
 
 /* update the addShapes as follows:
  * - create earth sphere (4, 32, 32, "#71706e");
@@ -83,7 +87,7 @@ function createFloor() {
  */
 function addShapes() {
     // code goes here
-    earth = createSphere(4, 32, 32, 0x71706e);
+    earth = createSphere(4, 32, 32, "#71706e");
     var floor = createFloor();
     spotlight = createSpotlight();
     var helper = createLightHelper();
