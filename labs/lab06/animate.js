@@ -8,6 +8,9 @@
  */ 
 function animate() {
     // code goes here
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
 }
 
 /* Define a function to select and move the PLY
@@ -31,4 +34,22 @@ var selectedObj = false;
 
 function onDocumentMouseDown(event) {
    // code goes here
+    var mouse = new THREE.Vector2();
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    rayCaster.setFromCamera(mouse, camera);
+    var intersects = rayCaster.intersectObjects(scene.children);
+    if (intersects.length > 0) {
+        if (intersects[0].object.name === "loaded_mesh" && !selectedObj) {
+            intersects[0].object.material.color.setHex(0xff0000);
+            selectedObj = true;
+        } else {
+            intersects[0].object.material.color.setHex(0x00ff00);
+            var point = intersects[0].point;
+            mesh.position.x = point.x;
+            mesh.position.y = point.y;
+            selectedObj = false;
+        }
+    }
+    //console.log(intersects[0].point);
 }

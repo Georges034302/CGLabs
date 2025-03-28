@@ -25,6 +25,29 @@ var mesh = null;
  */
 function loadModel(model) {
    // code goes here
+   loader.load(model, function (geometry) {
+      geometry.computeVertexNormals();
+      geometry.computeBoundingBox();
+      var center = geometry.boundingBox.getCenter();
+      var size = geometry.boundingBox.getSize();
+      var min = geometry.boundingBox.min;
+      var scale = 5 / size.length();
+      var sca = new THREE.Matrix4();
+      var tra = new THREE.Matrix4();
+     
+      sca.makeScale(scale, scale, scale);
+      tra.makeTranslation(-center.x, -center.y, -min.z);
+      
+      var material = new THREE.MeshPhongMaterial({
+         color: 0x00ff00,
+         shininess: 100
+      });
+      mesh = new THREE.Mesh(geometry, material);
+      mesh.applyMatrix(tra);
+      mesh.applyMatrix(sca);
+      mesh.name = "loaded_mesh";
+      scene.add(mesh);
+   });
 }
 
 /* Define the set light function
