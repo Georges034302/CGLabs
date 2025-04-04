@@ -17,13 +17,14 @@ function animate() {
     interval += velocity;
     let pos = tissue.geometry.getAttribute('position');
     for (let i = 0; i < pos.count; i++) {
-        let currentP = new THREE.Vector3();
-        currentP.x = pos.getX(i);
-        currentP.y = pos.getY(i);
-        currentP.z = pos.getZ(i);
-        let len = period * currentP.length() / size;
-        currentP.z = heightWave * Math.cos(len + interval);
-        pos.setZ(i, currentP.z);
+        let currentPos = new THREE.Vector3();
+        currentPos.x = pos.getX(i);
+        currentPos.y = pos.getY(i);
+        currentPos.z = pos.getZ(i);
+        let len = period * currentPos.length() / size;
+        currentPos.z = heightWave * Math.cos(len + interval);
+        pos.setZ(i, currentPos.z);
+        
     }
     pos.needsUpdate = true;
     tissue.geometry.computeVertexNormals();
@@ -39,18 +40,25 @@ function buildGui() {
     gui = new dat.GUI();
     var params = {
         color: material_tissue.color.getHex(),
-        velocity_tissue: velocity,
-        heightWave: heightWave,
+        velocity: velocity,
+        wave: heightWave,
+        period: period
     };
     gui.addColor(params, 'color').onChange(function (e) {
         material_tissue.color.setHex(e);
     });
-    gui.add(params, 'velocity_tissue', 0, 1).onChange(function (e) {
+    gui.add(params, 'velocity', 0, 1).onChange(function (e) {
         velocity = e;
     });
-    gui.add(params, 'heightWave', 0, 1).onChange(function (e) {
+    gui.add(params, 'wave', 0, 1).onChange(function (e) {
         heightWave = e;
     });
+    gui.add(params, 'period', 0, 100).onChange(function (e) {
+        period = e;
+    });
+    gui.add({ start: function () { velocity = 0.1; } }, 'start');
+    gui.add({ stop: function () { velocity = 0; } }, 'stop');
+    gui.add({ reset: function () { interval = 0; } }, 'reset');
     gui.open();
 }
 
@@ -61,7 +69,8 @@ function bounce(object) {
     //code goes here
     delta = clock.getDelta();
     time += delta;
-    object.position.z = 1.5 + Math.abs(Math.sin(time*3)) * 2;
+    object.position.z = 1.5 + 1 * Math.abs(Math.sin(time * 2));
+
 }
 
 //final update loop
