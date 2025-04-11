@@ -11,9 +11,7 @@ var cameralight;
 /// Code Step 1 here ///
 var loader = new THREE.MTLLoader();
 loader.setPath("models/");
-loader.setResourcePath("models/");
-
-    
+loader.setTexturePath("models/");    
 
 /*
     STEP 2: Load a texture object and determine its attributes
@@ -38,8 +36,10 @@ loader.setResourcePath("models/");
  */
 function loadTexture(loader, object) {
     /// Code Step 2 here ///
-    loader.load(object, function (mesh) {
-        mesh.traverse(function (child) {
+    loader.load(object, function(mesh){
+        var size;
+        var center;
+        mesh.traverse(function(child) {
             if (child instanceof THREE.Mesh) {
                 var geometry = new THREE.Geometry().fromBufferGeometry(child.geometry);
                 geometry.computeBoundingBox();
@@ -49,17 +49,16 @@ function loadTexture(loader, object) {
             }
         });
         scene.add(mesh);
-        var scale = new THREE.Matrix4();
-        var tran = new THREE.Matrix4();
+        var sca = new THREE.Matrix4();
+        var tra = new THREE.Matrix4();
         var combined = new THREE.Matrix4();
-        scale.makeScale(10/size.length(), 10/size.length(), 10/size.length());
-        tran.makeTranslation(-center.x, -center.y, -center.z);
-        combined.multiply(scale);
-        combined.multiply(tran);
-        mesh.applyMatrix4(combined);
+        sca.makeScale(10/size.length(), 10/size.length(), 10/size.length());
+        tra.makeTranslation(-center.x, -center.y, -center.z);
+        combined.multiply(sca);
+        combined.multiply(tra);
+        mesh.applyMatrix(combined);
+        mesh.updateMatrix();
     });
-
-    
 }
 
 /*
@@ -72,13 +71,13 @@ function loadTexture(loader, object) {
 */
 function createObj() {
    /// Code Step 3 here ///
-   loader.load("Librarian.obj.mtl", function (materials) {
+    loader.load("Librarian.obj.mtl", function(materials) {
         materials.preload();
         var objloader = new THREE.OBJLoader();
-        objloader.setPath("models/");
         objloader.setMaterials(materials);
+        objloader.setPath("models/");
         loadTexture(objloader, "Librarian.obj");
-   });
+    });
 }
 
 // The addLight function creates a point light and an ambient light in the scene.
