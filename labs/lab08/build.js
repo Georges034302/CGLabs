@@ -9,6 +9,9 @@ var cameralight;
     b - set the loader models path
 */
 /// Code Step 1 here ///
+var loader = new THREE.MTLLoader();
+loader.setPath("models/");
+loader.setResourcePath("models/");
 
     
 
@@ -35,6 +38,27 @@ var cameralight;
  */
 function loadTexture(loader, object) {
     /// Code Step 2 here ///
+    loader.load(object, function (mesh) {
+        mesh.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                var geometry = new THREE.Geometry().fromBufferGeometry(child.geometry);
+                geometry.computeBoundingBox();
+                child.material.color.setHex(0xffffff);
+                center = geometry.boundingBox.getCenter();
+                size = geometry.boundingBox.getSize();
+            }
+        });
+        scene.add(mesh);
+        var scale = new THREE.Matrix4();
+        var tran = new THREE.Matrix4();
+        var combined = new THREE.Matrix4();
+        scale.makeScale(10/size.length(), 10/size.length(), 10/size.length());
+        tran.makeTranslation(-center.x, -center.y, -center.z);
+        combined.multiply(scale);
+        combined.multiply(tran);
+        mesh.applyMatrix4(combined);
+    });
+
     
 }
 
@@ -48,7 +72,13 @@ function loadTexture(loader, object) {
 */
 function createObj() {
    /// Code Step 3 here ///
-
+   loader.load("Librarian.obj.mtl", function (materials) {
+        materials.preload();
+        var objloader = new THREE.OBJLoader();
+        objloader.setPath("models/");
+        objloader.setMaterials(materials);
+        loadTexture(objloader, "Librarian.obj");
+   });
 }
 
 // The addLight function creates a point light and an ambient light in the scene.
