@@ -23,4 +23,23 @@
 
 function build() {    
     // Code goes here
+    geometry = new THREE.SphereBufferGeometry(50, 80, 80);
+    var numVertices = geometry.attributes.position.count;   
+    var alphas = new Float32Array(numVertices * 1);
+    for (var i = 0; i < numVertices; i++) {
+        alphas[i] = Math.random();
+    }
+    geometry.setAttribute('alpha', new THREE.BufferAttribute(alphas, 1));
+    var color = new THREE.Color(Math.random(), Math.random(), Math.random());
+    var uniforms = {
+        color: { type: 'c', value: color }
+    };
+    var ShaderMaterial = new THREE.ShaderMaterial({
+        uniforms: uniforms,
+        vertexShader: document.getElementById('vertexShader').textContent,
+        fragmentShader: document.getElementById('fragmentShader').textContent,
+        transparent: true
+    });
+    cloud = new THREE.Points(geometry, ShaderMaterial);
+    scene.add(cloud);
 }
