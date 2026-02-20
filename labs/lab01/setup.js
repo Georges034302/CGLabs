@@ -2,6 +2,7 @@
 //Declare System Variables
 
 //variables declared here -
+var scene, camera, renderer;
 
 /* Define the setup screen function
  * Setup the 3 main components: scene, camera, renderer
@@ -12,6 +13,10 @@
  */
 function setScene() {
    // code goes here
+   scene = new THREE.Scene();
+   var  ratio = window.innerWidth / window.innerHeight;
+   camera = new THREE.Camera(45, ratio, 0.1, 1000);
+   camera.position.set(0, 0, 5);
    
 }
 
