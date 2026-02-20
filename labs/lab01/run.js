@@ -6,4 +6,9 @@
  * - add window event listener to trigger the resize function
  */
 
+setScene();
+addShapes();
+animate_cube();
+animate_sphere();
+window.addEventListener('resize', resizeScene);
 
