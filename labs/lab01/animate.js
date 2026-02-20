@@ -12,7 +12,6 @@ function animate_cube() {
    cube.position.z = 3;
    renderer.render(scene, camera);
    requestAnimationFrame(animate_cube);
-
  }
 
 /* Define the animate sphere function
