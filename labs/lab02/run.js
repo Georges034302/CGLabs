@@ -1,12 +1,16 @@
-/* Execute the graphics setup, build, and animate functions
- * - setScene
- * - addShapes
- * - animate_earth
- * - animate_moon
- * - add window event listener to trigger the resize function
+// Define the main run function to start the lab
+/* Define the run function
+ * - setup the scene (scene, camera, renderer, controls)
+ * - build and add shapes (Sun, Earth, Moon)
+ * - attach resize event handler
+ * - render the first frame
+ * - start the animation loop
  */
-setScene();
-addShapes();
-animate_earth();
-animate_moon();
-window.addEventListener('resize',resizeScene);
+function run() { // entry point for the lab
+    setScene(); // create scene, camera, renderer, controls
+    addShapes(); // add Sun, Earth, Moon to the scene
+    window.addEventListener("resize", resizeScene); // resize canvas + camera on window resize
+    renderer.render(scene, camera); // draw the first frame (before animation starts)
+    animate(); // start the single animation loop
+}
+run(); // call run() to start everything

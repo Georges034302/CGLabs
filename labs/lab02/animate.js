@@ -1,41 +1,20 @@
-
 // Define rotation speed constant = 0.005
-/* Define the animate earth function
+/* Define the animation function
  * - update the earth y-rotation with the rotation speed constant
+ * - update the earth orbit around the sun using cos/sin
+ * - update the moon orbit around the earth (clockwise) using cos/sin
+ * - make the moon tidally-locked to the earth (always faces earth)
+ * - update the controls (required for damping)
  * - render the view (scene, camera)
  * - request animation frame calling the function into infinite loop
  */
-const speed = 0.005;
-function animate_earth() {
-    // code goes here
-    earth.rotation.y += speed;
-    renderer.render(scene,camera);
-    requestAnimationFrame(animate_earth);
-}
+const speed = 0.005; // Earth self-rotation speed (spin)
+var theta = 0; // Earth orbit angle around Sun (starts at 0)
+var dtheta = 2 * Math.PI / 2000; // Earth orbit angle step per frame (orbit speed)
+var alpha = 0; // Moon orbit angle around Earth (starts at 0)
+var dalpha = 2 * Math.PI / 1000; // Moon orbit angle step per frame (moon orbit speed)
 
+function animate() { // main animation loop (single loop for whole scene)
+    requestAnimationFrame(animate); // call animate again next frame (infinite loop)
 
-// Define earth-moon distance d = 5
-// define the initial angle alpha = 0
-// define the angle update dalpha = 2 * Math.PI / 1000;
-
-/* Define the animate moon function
- * - update the alpha angle with dalpha with every frame animation
- * - fix the moon y position to 1
- * - update the moon x position to d * Math.cos(alpha);
- * - update the moon z position to d * Math.sin(alpha);
- * - render the view (scene, camera)
- * - request animation frame calling the function into infinite loop
- */
-const d = 5;
-var alpha = 0;
-var dalpha = 2 * Math.PI / 1000;
-
-function animate_moon() {
-    // code goes here
-    alpha += dalpha;
-    moon.position.y = 1;
-    moon.position.x = d * Math.cos(alpha);
-    moon.position.z = d * Math.sin(alpha);
-    renderer.render(scene,camera);
-    requestAnimationFrame(animate_moon);
 }

@@ -7,28 +7,37 @@
  * - the function returns a sphere object
  */
 function createSphere(radius, hlines, vlines, color) {
-    // code goes here
-    var material = new THREE.MeshBasicMaterial();
-    material.color = new THREE.Color(color);
-    material.wireframe = true;
-    var geometry = new THREE.SphereGeometry(radius,hlines,vlines);
-    var sphere = new THREE.Mesh(geometry,material);
-    return sphere;
+    var material = new THREE.MeshBasicMaterial(); // basic material (no lighting)
+    material.color = new THREE.Color(color); // set sphere color
+    material.wireframe = true; // show wireframe
+    var geometry = new THREE.SphereGeometry(radius, hlines, vlines); // create sphere geometry
+    var sphere = new THREE.Mesh(geometry, material); // create mesh
+    return sphere; // return mesh
 }
 
-/*
- * Create earth sphere (radius=2,hlines=44,vlines=44,color=green)
- * Create moon sphere (radius=1,hlines=32,vlines=32,color=white)
+/* Declare the system objects */
+
+
+/* Define base size constants (formula inputs) */
+
+
+/* Define radius orbit formulas */
+
+    
+/* Define the build system function
+ * - compute sizes using formulas
+ * - compute orbit distances using formulas
+ * - create Sun, Earth, Moon using computed values
+ * - set initial positions using computed orbit distances
  */
-var earth = createSphere(2,44,44,"#00ff00");
-var moon = createSphere(1,32,32,"#c0c0c0");
+function buildSystem() {
+
+}
 
 /* Define the add shapes function
- * - add the earth to the scene
- * - add the moon to the scene
+ * - build the Sun/Earth/Moon objects
+ * - add all objects to the scene
  */
 function addShapes() {
-    // code goes here
-    scene.add(earth);
-    scene.add(moon);
+
 }
