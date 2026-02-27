@@ -41,7 +41,14 @@ var moonOrbit = earthOrbit * MOON_ORBIT_RATIO; // Moon distance from Earth (1/10
  * - set initial positions using computed orbit distances
  */
 function buildSystem() {
+    sun = createSphere(SUN_RADIUS, 48, 48, "#ffff00"); // create Sun
+    sun.position.set(0, 0, 0); // Sun fixed at origin
 
+    earth = createSphere(earthRadius, 44, 44, "#00ff00"); // create Earth
+    earth.position.set(earthOrbit, 0, 0); // Earth placed using orbit formula
+
+    moon = createSphere(moonRadius, 32, 32, "#c0c0c0"); // create Moon
+    moon.position.set(earthOrbit + moonOrbit, 0, 0); // Moon offset from Earth
 }
 
 /* Define the add shapes function
@@ -49,5 +56,8 @@ function buildSystem() {
  * - add all objects to the scene
  */
 function addShapes() {
-
+    buildSystem(); // create objects
+    scene.add(sun); // add Sun
+    scene.add(earth); // add Earth
+    scene.add(moon); // add Moon
 }
