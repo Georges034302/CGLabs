@@ -28,6 +28,12 @@ function setScene() {
     // prevent zooming too far
     // enable smooth camera inertia motion
     // control how quickly camera movement slows
+    controls = new THREE.OrbitControls(camera, renderer.domElement); // enable mouse orbit and zoom controls
+    controls.enableZoom = true; // allow mouse wheel zooming
+    controls.minDistance = 2; // prevent zooming too close
+    controls.maxDistance = 50; // prevent zooming too far
+    controls.enableDamping = true; // enable smooth camera inertia motion
+    controls.dampingFactor = 0.08; // control how quickly camera movement slows
 }
 
 /* Define the resize screen function
