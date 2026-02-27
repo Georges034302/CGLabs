@@ -16,18 +16,19 @@ function setScene() {
     scene = new THREE.Scene(); // create a new empty 3D scene
     var ratio = window.innerWidth / window.innerHeight; // calculate screen aspect ratio
     camera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000); // create perspective camera with FOV and clipping planes
-    camera.position.set(10, 10, 350); // position camera so objects are visible
+    camera.position.set(10, 10, 30); // position camera so objects are visible
     camera.lookAt(0, 0, 0); // aim camera toward scene center
     renderer = new THREE.WebGLRenderer({ antialias: true }); // create renderer using GPU with smoother edges
     renderer.setPixelRatio(window.devicePixelRatio); // improve clarity on high-resolution screens
     renderer.setSize(window.innerWidth, window.innerHeight); // make renderer fill entire browser window
     document.body.appendChild(renderer.domElement); // attach renderer canvas to HTML page
     // enable mouse orbit and zoom controls
-    // allow mouse wheel zooming
-    // prevent zooming too close
-    // prevent zooming too far
-    // enable smooth camera inertia motion
-    // control how quickly camera movement slows
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableZoom = true; // allow mouse wheel zooming
+    controls.minDistance = 2; // prevent zooming too close
+    controls.maxDistance = 50; // prevent zooming too far
+    controls.enableDamping = true; // enable smooth camera inertia motion
+    controls.dampingFactor = 0.08; // control how quickly camera movement slows
    
 }
 
