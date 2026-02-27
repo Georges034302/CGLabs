@@ -16,7 +16,7 @@ function setScene() {
     scene = new THREE.Scene(); // create a new empty 3D scene
     var ratio = window.innerWidth / window.innerHeight; // calculate screen aspect ratio
     camera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000); // create perspective camera with FOV and clipping planes
-    camera.position.set(10, 10, 350); // position camera so objects are visible
+    camera.position.set(10, 10, 300); // position camera so objects are visible
     camera.lookAt(0, 0, 0); // aim camera toward scene center
     renderer = new THREE.WebGLRenderer({ antialias: true }); // create renderer using GPU with smoother edges
     renderer.setPixelRatio(window.devicePixelRatio); // improve clarity on high-resolution screens

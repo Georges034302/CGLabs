@@ -29,7 +29,7 @@ var EARTH_ORBIT_FACTOR = 3; // Earth orbit radius factor (multiplier of Earth ra
 var MOON_ORBIT_FACTOR = 2; // Moon orbit radius factor (multiplier of Earth radius)
 var earthRadius = SUN_RADIUS * EARTH_RATIO; // Earth radius (from constant)
 var moonRadius = earthRadius * MOON_RATIO; // Moon radius (from constant)
-var earthOrbit = 8+SUN_RADIUS * EARTH_ORBIT_FACTOR; // Earth orbit radius (from formula)
+var earthOrbit = 4+SUN_RADIUS * EARTH_ORBIT_FACTOR; // Earth orbit radius (from formula)
 var moonOrbit = earthRadius * MOON_ORBIT_FACTOR; // Moon orbit radius (from formula)
     
 /* Define the build system function
@@ -42,8 +42,8 @@ function buildSystem() {
     // compute sizes using formulas
     sun = createSphere(SUN_RADIUS, 42, 42, 0xffff00); // create Sun (yellow)
     sun.position.set(0, 0, 0); // position Sun at scene center
-
-    earth = createSphere(earthRadius, 32, 32, 0x0000ff); // create Earth (blue)
+    //make the earth dark green and the moon gray
+    earth = createSphere(earthRadius, 32, 32, 0x006400); // create Earth (dark green)
     earth.position.set(earthOrbit, 0, 0); // position Earth at initial orbit location
 
     moon = createSphere(moonRadius, 16, 16, 0x888888); // create Moon (gray)
