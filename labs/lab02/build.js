@@ -29,7 +29,7 @@ var EARTH_ORBIT_FACTOR = 3; // Earth orbit radius factor (multiplier of Earth ra
 var MOON_ORBIT_FACTOR = 2; // Moon orbit radius factor (multiplier of Earth radius)
 var earthRadius = SUN_RADIUS * EARTH_RATIO; // Earth radius (from constant)
 var moonRadius = earthRadius * MOON_RATIO; // Moon radius (from constant)
-var earthOrbit = SUN_RADIUS * EARTH_ORBIT_FACTOR; // Earth orbit radius (from formula)
+var earthOrbit = 8+SUN_RADIUS * EARTH_ORBIT_FACTOR; // Earth orbit radius (from formula)
 var moonOrbit = earthRadius * MOON_ORBIT_FACTOR; // Moon orbit radius (from formula)
     
 /* Define the build system function
