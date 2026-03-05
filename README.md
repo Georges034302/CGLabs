@@ -1,34 +1,102 @@
-### Building ThreeJS Project in VS Code:
+# Computer Graphics Labs --- Three.js
 
-* Download and extract Three JS package from: https://threejs.org/
-* Create a folder called CGLabs
-* Open that folder in vscode and create a subfolder called 'js'
-* Copy 'three.js' from the 'ThreeJS/build' folder into 'js'
-* Create index.html in CGLabs [by default vscode uses emmet to generate html snipets]
-* Download 'Live Server extension' in vs code [live server provides local server live-runtime for static apps]
-* Download Javascript ES6/ES7 extension
-* Download Javascript Babel extension
-* Create lab for each lab to develop threejs apps inside the labs folder
-* Insert the labs js scripts into index.html and load using live server
+🔗 **Live Labs:**\
+https://georges034302.github.io/CGLabs/
 
+------------------------------------------------------------------------
 
-### Enable ThreeJS autocomplete in VS Code:
+## Overview
 
-* Install nodejs for your operating system [https://nodejs.org/en/download/]
-* In the vscode terminal run the commands:
-```
-sudo apt install node
-sudo apt install npm
-sudo apt update
-sudo apt upgrade
-```
-* In the vscode terminal run the command:  
-```
-npm init -y
-[This command will generate the package.json file for your project]
-```
-* In the vscode terminal run the command:  
-```
-npm install @types/three 
-[This command will install the ThreeJS definition module in vscode]
-```
+This repository contains a series of **Computer Graphics labs developed
+using Three.js**.\
+The labs demonstrate fundamental concepts in **3D graphics
+programming**, including:
+
+-   scene creation
+-   object geometry
+-   transformations
+-   animation
+-   hierarchical modelling
+-   orbital systems
+
+Each lab progressively introduces new graphics concepts while reusing
+the structure of previous labs.
+
+------------------------------------------------------------------------
+
+## About Three.js
+
+**Three.js** is a JavaScript library used to create and display **3D
+graphics in the browser** using **WebGL**.
+
+It provides high‑level abstractions for common graphics components such
+as:
+
+-   **Scenes** -- containers that hold objects in a 3D world\
+-   **Cameras** -- define the viewpoint of the scene\
+-   **Meshes** -- objects created from geometry and materials\
+-   **Lights** -- illumination sources\
+-   **Animation loops** -- continuously update and render scenes
+
+Three.js simplifies WebGL development by providing an intuitive
+object‑oriented API for building interactive 3D applications.
+
+------------------------------------------------------------------------
+
+## Repository Structure
+
+    CGLabs
+    │
+    ├─ index.html
+    ├─ js
+    │   └─ three.js
+    │
+    └─ labs
+        ├─ Lab1
+        ├─ Lab2
+        ├─ Lab3
+        └─ ...
+
+Each lab contains its own JavaScript files that build and animate a
+Three.js scene.
+
+------------------------------------------------------------------------
+
+## Lab Topics
+
+### Lab 1
+
+Introduction to **Three.js scene setup**.
+
+Concepts: - renderer - camera - scene - basic geometry
+
+### Lab 2
+
+**Sun--Earth--Moon system simulation**.
+
+Concepts: - orbital motion - hierarchical relationships - animation
+loops
+
+### Lab 3
+
+**Dyson Halo Transformations**.
+
+Concepts: - transformation matrices - object grouping - scaling,
+translation, rotation - procedural geometry
+
+Two rotating Dyson halos made of small panels are constructed around a
+fixed Sun.
+
+------------------------------------------------------------------------
+
+## Learning Goals
+
+These labs introduce core computer graphics principles:
+
+-   3D coordinate systems
+-   object transformations
+-   scene graphs
+-   animation loops
+-   hierarchical modelling
+
+All examples run directly in the browser using **Three.js and WebGL**.
