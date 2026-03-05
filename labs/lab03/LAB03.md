@@ -8,7 +8,7 @@ cubes) arranged in a circular ring around the Sun.
 
 Two halos are created:
 
--   **Halo A** -- horizontal ring\
+-   **Halo A** -- horizontal ring
 -   **Halo B** -- vertical ring (rotated 90°)
 
 Both halos **rotate around the fixed Sun** while the **Earth and Moon
@@ -45,7 +45,7 @@ The final transformation matrix is applied to each panel.
 
 The final scene contains:
 
--   Sun at the center\
--   Earth orbiting the Sun\
--   Moon orbiting the Earth\
+-   Sun at the center
+-   Earth orbiting the Sun
+-   Moon orbiting the Earth
 -   Two rotating **Dyson halos made of small silver panels**
