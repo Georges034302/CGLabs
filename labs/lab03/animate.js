@@ -34,7 +34,8 @@ function animateSystem() {
  * - rotate two halo groups around the fixed Sun
  */
 function animateDyson() {
-   
+   if (haloA) haloA.rotation.y += 0.01; // rotate first halo group around Sun
+   if (haloB) haloB.rotation.y -= 0.01; // rotate second halo group around Sun in opposite direction
 }
 
 /* Single main loop (Lab 2 + Lab 3) */

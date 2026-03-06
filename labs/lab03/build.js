@@ -68,7 +68,34 @@ function buildSystem() {
  * - the function returns a halo group object
  */
 function createHalo(radius, n, sx, sy, sz) {
+    var group = new THREE.Group(); // create empty group to hold halo panels
+    var material = new THREE.MeshBasicMaterial(); // basic material (no lighting)
+    material.color = new THREE.Color(0x00ffff);
+    material.wireframe = false; // show sides (not wireframe)
 
+    for (var i = 0; i < n; i++) {
+        var sca = new THREE.Matrix4(); // scale matrix to make cube into thin rectangle
+        var rot = new THREE.Matrix4(); // rotation matrix to orient panel around the ring
+        var tra = new THREE.Matrix4(); // translation matrix to move panel to the correct radius
+        var combined = new THREE.Matrix4(); // combined transformation matrix (scale, then rotate, then translate)
+        
+        sca.makeScale(sx, sy, sz); // scale cube into rectangle
+        rot.makeRotationY(i * 2 * Math.PI / n); // rotate panel to correct angle around ring
+        tra.makeTranslation(radius, 0, 0); // translate panel out to the correct radius
+
+        combined.multiply(rot); // apply rotation first
+        combined.multiply(tra); // then apply translation
+        combined.multiply(sca); // then apply scaling
+
+        var geometry = new THREE.BoxGeometry(1, 1, 1); // create unit cube geometry
+        var panel = new THREE.Mesh(geometry, material); // create mesh for panel
+        
+        panel.matrixAutoUpdate = false; // disable automatic matrix updates
+        panel.matrix.copy(combined); // set panel transformation to combined matrix
+        
+        group.add(panel); // add panel to the halo group
+    }
+    return group; // return the halo group
 }
 
 /* Define the build Dyson function
@@ -78,8 +105,17 @@ function createHalo(radius, n, sx, sy, sz) {
  * - add both halos to the scene
  */
 function buildDyson() {
-  
+    var haloRadius = SUN_RADIUS + earthRadius; // compute halo radius
+    var sx = 0.25; // panel width
+    var sy = 1.2; // panel height
+    var sz = 0.5; // panel depth
 
+    haloA = createHalo(haloRadius, 30, sx, sy, sz); // create first halo
+    haloB = createHalo(haloRadius+0.4, 30, sx, sy, sz); // create second halo
+    haloB.rotation.x = Math.PI / 2; // rotate second halo to be perpendicular to first
+
+    scene.add(haloA); // add first halo to scene
+    scene.add(haloB); // add second halo to scene
 }
 
 /* Define the add shapes function
@@ -89,4 +125,5 @@ function buildDyson() {
  */
 function addShapes() {
    buildSystem();
+   buildDyson();
 }
