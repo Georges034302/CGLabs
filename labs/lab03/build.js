@@ -88,5 +88,5 @@ function buildDyson() {
  * - add all objects to the scene
  */
 function addShapes() {
-   
+   buildSystem
 }
