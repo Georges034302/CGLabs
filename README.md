@@ -87,6 +87,17 @@ translation, rotation - procedural geometry
 Two rotating Dyson halos made of small panels are constructed around a
 fixed Sun.
 
+### Lab 4
+
+**Lighting and Materials**.
+
+Concepts: - ambient light - point light sources - diffuse shading
+(Lambert) - specular reflection (Phong) - emissive materials
+
+Extends Lab 3 by adding lighting models to demonstrate how light
+interacts with surfaces and how material properties affect perceived
+colour.
+
 ------------------------------------------------------------------------
 
 ## Learning Goals
