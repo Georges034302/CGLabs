@@ -143,7 +143,12 @@ function buildDyson() {
  * - add a point light at the Sun position
  */
 function addLights() {
-  
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0.2); // soft white light
+    scene.add(ambientLight);
+    
+    var pointLight = new THREE.PointLight(0xffffff, 1.5); // bright white light
+    pointLight.position.set(0, 0, 0); // position at Sun
+    scene.add(pointLight);
 }
 
 /* Define the Lab 4 materials function
@@ -152,7 +157,23 @@ function addLights() {
  * - replace Dyson panel materials with a Phong material
  */
 function applyLab4Materials() {
-  
+    sun.material = new THREE.MeshStandardMaterial({
+        color: 0xffff00,
+        emissive: 0xffaa00,
+        emissiveIntensity: 1.0
+    });
+
+    earth.material = new THREE.MeshLambertMaterial({ color: 0x1a6b1a });
+    moon.material = new THREE.MeshLambertMaterial({ color: 0x888888 });
+
+    var panelMaterial = new THREE.MeshPhongMaterial({
+        color: 0xC0C0C0,
+        specular: 0xffffff,
+        shininess: 80
+    });
+
+    haloA.children.forEach(panel => panel.material = panelMaterial);
+    haloB.children.forEach(panel => panel.material = panelMaterial);
 }
 
 /* Define the add shapes function
