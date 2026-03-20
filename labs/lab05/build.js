@@ -161,7 +161,7 @@ function addLights() {
  */
 function applyLab4Materials() {
     // Sun: emissive material to make it appear self-illuminated
-    sun.material = new THREE.MeshBasicMaterial({ color: 0xffff00, emissive: 0xffff00 });
+    sun.material = new THREE.MeshStandardMaterial({ color: 0xffff00, emissive: 0xffff00 });
 
     // Earth and Moon: Lambert materials to respond to lighting
     earth.material = new THREE.MeshLambertMaterial({ color: 0x006400 });
