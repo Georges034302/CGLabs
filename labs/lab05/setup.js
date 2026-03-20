@@ -23,7 +23,7 @@ function setScene() {
     renderer.setSize(window.innerWidth, window.innerHeight); // make renderer fill entire browser window
     
     //:ab 5: Enable shadow rendering in the renderer
-
+    renderer.shadowMap.enabled = true; // enable shadow rendering in the renderer
     
     document.body.appendChild(renderer.domElement); // attach renderer canvas to HTML page
     // enable mouse orbit and zoom controls
