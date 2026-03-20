@@ -109,8 +109,8 @@ The Moon will appear faceted (per-face shading), while the Earth remains smoothl
 When running the scene:
 
 - The Sun illuminates the entire system via `PointLight`
-- The Moon casts a shadow onto the Earth
-- When the Moon aligns between the Sun and Earth, a **solar eclipse shadow** appears
+- The Moon casts a shadow onto the Earth (Solar Eclipse)
+- The Earth casrs a shadow onto the Moon (Lunar Eclipse)
 - The Moon surface shows **flat shading** (faceted)
 - The Earth surface shows **smooth shading** (interpolated)
 

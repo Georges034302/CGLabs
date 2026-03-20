@@ -176,22 +176,14 @@ function applyLab4Materials() {
     });
 }
 
-
+// Define the Lab 5 shadows function
 function enableShadows() {
-    var sunLight = scene.children.find(obj => obj instanceof THREE.PointLight);
-
-    if(sunLight) {
-        sunLight.castShadow = true; // enable shadow casting for the point light
-    }
-
-    moon.castShadow = true; // enable shadow casting for the Moon
-
-    earth.receiveShadow = true; // enable shadow receiving for the Earth
+   
 }
 
+// Define the Lab 5 shadings function
 function applyLab5Shadings() {
-    moon.material.flatShading = true; // enable flat shading for the Moon
-    moon.material.needsUpdate = true; // update material to apply changes`
+    
 }
 
 /* Define the add shapes function
