@@ -17,6 +17,7 @@ The existing **Sun–Earth–Moon system and Dyson halos** remain unchanged. Onl
 - Enable **shadow rendering** in Three.js
 - Configure objects to **cast and receive shadows**
 - Observe a **solar eclipse effect** when the Moon blocks the Sun's light
+- Observe a **lunar eclipse effect** when the Earth blocks the Sun's light
 
 ---
 
@@ -82,10 +83,14 @@ In **`build.js`**, inside `applyLab4Materials()` or at the end of `addShapes()`:
 
 ```javascript
 moon.castShadow     = true;
+moon.receiveShadow  = true;
+earth.castShadow    = true;
 earth.receiveShadow = true;
 ```
 
 When the Moon passes between the Sun and Earth, its shadow is projected onto the Earth's surface — simulating a **solar eclipse**.
+
+When the Earth passes between the Sun and Moon, its shadow is projected onto the Moon's surface — simulating a **lunar eclipse**.
 
 ---
 
@@ -121,7 +126,7 @@ When running the scene:
 | File | Change |
 |---|---|
 | `setup.js` | `renderer.shadowMap.enabled = true` |
-| `build.js` | `sunLight.castShadow = true`; `moon.castShadow = true`; `earth.receiveShadow = true`; flat shading on Moon |
+| `build.js` | `sunLight.castShadow = true`; `moon.castShadow = true`; `moon.receiveShadow = true`; `earth.castShadow = true`; `earth.receiveShadow = true`; flat shading on Moon |
 | `animate.js` | No change |
 | `run.js` | No change |
 

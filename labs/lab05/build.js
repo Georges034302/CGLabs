@@ -177,11 +177,13 @@ function applyLab4Materials() {
 }
 
 // Define the Lab 5 shadows function
+// - enable shadow casting and receiving for the Sun, Earth, Moon
 function enableShadows() {
    
 }
 
 // Define the Lab 5 shadings function
+// - apply flat shading to the Moon to give it a faceted appearance
 function applyLab5Shadings() {
     
 }
