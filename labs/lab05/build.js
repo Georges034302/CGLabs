@@ -176,6 +176,24 @@ function applyLab4Materials() {
     });
 }
 
+
+function enableShadows() {
+    var sunLight = scene.children.find(obj => obj instanceof THREE.PointLight);
+
+    if(sunLight) {
+        sunLight.castShadow = true; // enable shadow casting for the point light
+    }
+
+    moon.castShadow = true; // enable shadow casting for the Moon
+
+    earth.receiveShadow = true; // enable shadow receiving for the Earth
+}
+
+function applyLab5Shadings() {
+    moon.material.flatShading = true; // enable flat shading for the Moon
+    moon.material.needsUpdate = true; // update material to apply changes`
+}
+
 /* Define the add shapes function
  * - build the Sun/Earth/Moon objects
  * - build the Dyson halo objects (two rings)
@@ -188,4 +206,8 @@ function addShapes() {
     buildDyson();  // create and add Dyson halos
     addLights();   // Lab 4: add lighting
     applyLab4Materials(); // Lab 4: apply lighting-aware materials
+
+    // Lab 5: enable shadows and flat shading
+    enableShadows(); // enable shadow casting and receiving
+    applyLab5Shadings(); // apply flat shading to the Moon
 }
