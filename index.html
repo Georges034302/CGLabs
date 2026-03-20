@@ -15,15 +15,6 @@
         <div id="info">
             <H1>Computer Graphics Demo</H1>
         </div>
-        <script type='x-shader/x-vertex' id='vertexShader'>
-            attribute float alpha; varying float vAlpha; void main() { vAlpha = alpha; vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 ); gl_PointSize = 2.0; gl_Position = projectionMatrix * mvPosition; }
-        </script>
-
-        <script type='x-shader/x-fragment' id='fragmentShader'>
-
-            uniform vec3 color; varying float vAlpha; void main() { gl_FragColor = vec4( color, vAlpha ); }
-        </script>
-
         <script src="labs/lab05/setup.js"></script>
         <script src="labs/lab05/build.js"></script>
         <script src="labs/lab05/animate.js"></script>
