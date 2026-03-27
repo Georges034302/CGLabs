@@ -233,7 +233,7 @@ function addStarField() {
 
 /* -----------------------------------------------------
    LAB 6: Load spaceship PLY model
-   - load ship.ply using PLYLoader
+   - load ufo.ply using PLYLoader
    - compute normals for lighting
    - center the model using bounding box
    - scale the model to fit the scene
@@ -242,7 +242,40 @@ function addStarField() {
    ----------------------------------------------------- */
 function loadSpaceship() {
     // function to load the spaceship model
-    
+    var loader = new THREE.PLYLoader();
+    loader.load('models/ufo.ply', function(geometry) {
+        geometry.computeVertexNormals(); // compute normals for lighting
+        geometry.computeBoundingBox(); // compute bounding box for centering
+
+        var center = new THREE.Vector3();
+        var size = new THREE.Vector3();
+        geometry.boundingBox.getCenter(center);
+        geometry.boundingBox.getSize(size);
+
+        geometry.translate(-center.x, -center.y, -center.z); // center the model
+
+        var material = new THREE.MeshPhongMaterial({
+            color: 0xffffff,
+            shininess: 40,
+            specular: 0x888888
+        });
+
+        var loaded_mesh = new THREE.Mesh(geometry, material);
+        loaded_mesh.name = "loaded_mesh";
+
+        var targetSize = 5; // target size for scaling
+        var scaleFactor = targetSize / Math.max(size.x, size.y, size.z);
+        loaded_mesh.scale.set(scaleFactor, scaleFactor, scaleFactor); // scale the model
+
+        loaded_mesh.position.set(-15, 0, 0);
+
+        loaded_mesh.rotation.y = Math.PI / 2; // rotate to face the solar system
+
+        loaded_mesh.castShadow = true; // enable shadow casting
+        loaded_mesh.receiveShadow = true; // enable shadow receiving
+
+        scene.add(loaded_mesh);
+    });
 }
 
 /* Define the add shapes function */
