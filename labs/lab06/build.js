@@ -205,29 +205,8 @@ function applyLab5Shading() {
    - stars are simple meshes, no textures used
    ----------------------------------------------------- */
 function addStarField() {
-   // function to create a star field of small white spheres
-    var starGeometry = new THREE.SphereGeometry(0.20, 6, 6);
-    var starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    var starGroup = new THREE.Group();
-
-    for (let i = 0; i < 1200; i++) {
-        var star = new THREE.Mesh(starGeometry, starMaterial);
-        var x = (Math.random() - 0.5) * 1200; // random x position
-        var y = (Math.random() - 0.5) * 1200; // random y position
-        var z = (Math.random() - 0.5) * 1200; // random z position
-
-        // keep  stars away from the central solar system
-        if (Math.abs(x) < 80 && Math.abs(y) < 80 && Math.abs(z) < 80) {
-            x += (x < 0) ? -120 : 120;
-            y += (y < 0) ? -120 : 120;
-            z += (z < 0) ? -120 : 120;
-        } 
-
-        star.position.set(x, y, z);
-        starGroup.add(star);
-    }
-    scene.add(starGroup);
-    scene.background = new THREE.Color(0x000000); // set background to black
+    // function to create a star field of small white spheres
+    
 }
 
 /* -----------------------------------------------------
@@ -240,42 +219,8 @@ function addStarField() {
    - enable shadows on the loaded model
    ----------------------------------------------------- */
 function loadSpaceship() {
-   // function to load the spaceship model
-    var loader = new THREE.PLYLoader();
-    loader.load('models/ufo.ply', function(geometry) {
-        geometry.computeVertexNormals(); // compute normals for lighting
-        geometry.computeBoundingBox(); // compute bounding box for centering
-
-        var center = new THREE.Vector3();
-        var size = new THREE.Vector3();
-        geometry.boundingBox.getCenter(center);
-        geometry.boundingBox.getSize(size);
-
-        geometry.translate(-center.x, -center.y, -center.z); // center the model
-
-        var material = new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            specular: 0xffffff,
-            shininess: 40
-        });
-
-        loaded_mesh = new THREE.Mesh(geometry, material);
-
-        loaded_mesh.name = "loaded_mesh"; // assign a name for easy reference
-
-        var targetSize = 5; // desired size of the model
-        var scaleFactor = targetSize / Math.max(size.x, size.y, size.z);
-        loaded_mesh.scale.set(scaleFactor, scaleFactor, scaleFactor); // scale the model
-
-        loaded_mesh.position.set(-15, 0, 0); // position near the solar system
-        loaded_mesh.rotation.y = Math.PI / 2; // rotate to face the solar system
-        
-        loaded_mesh.castShadow = true;
-        loaded_mesh.receiveShadow = true;
-        
-        scene.add(loaded_mesh);
-
-    });
+    // function to load the spaceship model
+    
 }
 
 /* Define the add shapes function */
