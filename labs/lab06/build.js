@@ -1,5 +1,3 @@
-const { MathUtils } = require("three");
-
 /* Define the create sphere function
  * - create a material object (type MeshBasicMaterial)
  * - set the color for the material object (HEX)
