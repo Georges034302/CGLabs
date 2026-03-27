@@ -260,7 +260,7 @@ function loadSpaceship() {
             specular: 0x888888
         });
 
-        var loaded_mesh = new THREE.Mesh(geometry, material);
+        loaded_mesh = new THREE.Mesh(geometry, material);
         loaded_mesh.name = "loaded_mesh";
 
         var targetSize = 5; // target size for scaling
