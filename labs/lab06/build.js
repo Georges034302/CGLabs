@@ -1,3 +1,5 @@
+const { MathUtils } = require("three");
+
 /* Define the create sphere function
  * - create a material object (type MeshBasicMaterial)
  * - set the color for the material object (HEX)
@@ -206,6 +208,28 @@ function applyLab5Shading() {
    ----------------------------------------------------- */
 function addStarField() {
    // function to create a star field of small white spheres
+    var starGeometry = new THREE.SphereGeometry(0.20, 6, 6);
+    var starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    var starGroup = new THREE.Group();
+
+    for (let i = 0; i < 1200; i++) {
+        var star = new THREE.Mesh(starGeometry, starMaterial);
+        var x = (Math.random() - 0.5) * 1200; // random x position
+        var y = (Math.random() - 0.5) * 1200; // random y position
+        var z = (Math.random() - 0.5) * 1200; // random z position
+
+        // keep  stars away from the central solar system
+        if (Math.abs(x) < 80 && Math.abs(y) < 80 && Math.abs(z) < 80) {
+            x += (x < 0) ? -120 : 120;
+            y += (y < 0) ? -120 : 120;
+            z += (z < 0) ? -120 : 120;
+        } 
+
+        star.position.set(x, y, z);
+        starGroup.add(star);
+    }
+    scene.add(starGroup);
+    scene.background = new THREE.Color(0x000000); // set background to black
 }
 
 /* -----------------------------------------------------
