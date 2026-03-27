@@ -206,7 +206,29 @@ function applyLab5Shading() {
    ----------------------------------------------------- */
 function addStarField() {
     // function to create a star field of small white spheres
-    
+    var starGeometry = new THREE.SphereGeometry(0.2, 6, 6);
+    var starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    var starGroup = new THREE.Group();
+
+    for (let i = 0; i < 1200; i++) {
+        var star = new THREE.Mesh(starGeometry, starMaterial);
+        
+        var x = (Math.random() - 0.5) * 1200; // x between -600 and 600
+        var y = (Math.random() - 0.5) * 1200; // y between -600 and 600
+        var z = (Math.random() - 0.5) * 1200; // z between -600 and 600
+        
+        //keep stars away from the center where the solar system is
+        if (Math.abs(x) < 80 && Math.abs(y) < 80 && Math.abs(z) < 80) {
+            x += (x < 0) ? -120 : 120;
+            y += (y < 0) ? -120 : 120;
+            z += (z < 0) ? -120 : 120;
+        }
+        star.position.set(x, y, z);
+        starGroup.add(star);
+    }
+    scene.add(starGroup);
+    scene.background = new THREE.Color(0x000000); // set background to black
+
 }
 
 /* -----------------------------------------------------
