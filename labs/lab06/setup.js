@@ -75,7 +75,8 @@ function onDocumentMouseDown(event) {
    if(!selectedObj) {
       if(!loaded_mesh) return; // if spaceship not loaded yet, do nothing
 
-      var shipHits = rayCaster.intersectObject(loaded_mesh); // check if spaceship is clicked
+      var shipHits = rayCaster.intersectObject(loaded_mesh, true); // check if spaceship is clicked
+      
       if(shipHits.length > 0) {
          selectedObj = loaded_mesh; // select the spaceship
          selectedObj.material.color.set(0xff0000); // change color to indicate selection
