@@ -183,8 +183,10 @@ function enableShadows() {
 
     // moon blocks sunlight
     moon.castShadow = true;
+    moon.receiveShadow = true;
 
     // earth receives the shadow
+    earth.castShadow = true;
     earth.receiveShadow = true;
 }
 
