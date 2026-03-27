@@ -98,6 +98,30 @@ Extends Lab 3 by adding lighting models to demonstrate how light
 interacts with surfaces and how material properties affect perceived
 colour.
 
+### Lab 5
+
+**Shading and Shadows**.
+
+Concepts: - flat vs smooth shading - surface normals - shadow mapping
+- shadow casting and receiving - solar and lunar eclipses
+
+Builds on Lab 4 by enabling shadow rendering and configuring objects to
+cast and receive shadows. Demonstrates how the Moon blocks light to
+create shadows on the Earth, simulating a solar eclipse, and how the
+Earth's shadow falls on the Moon, simulating a lunar eclipse.
+
+### Lab 6
+
+**Loading and Interacting with 3D Models**.
+
+Concepts: - external model loading (PLY format) - vertex normals
+- bounding box centering and scaling - star field background - raycasting
+- interactive object selection and movement
+
+Builds on Lab 5 by loading an external UFO 3D model, adding a star field
+background, and implementing mouse-based interaction to select and move
+the UFO around the scene using raycasting.
+
 ------------------------------------------------------------------------
 
 ## Learning Goals
