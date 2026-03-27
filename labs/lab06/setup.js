@@ -53,6 +53,7 @@ function setScene() {
        - when the user clicks, test object selection/movement
     ----------------------------------------------------------- */
    // add event listener for mouse clicks
+   document.addEventListener('mousedown', onDocumentMouseDown, false);
    
 }
 
@@ -66,6 +67,28 @@ function setScene() {
 ----------------------------------------------------------- */
 function onDocumentMouseDown(event) {
   // Lab 6 on click function will go here
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1; // convert mouse x to NDC
+  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1; // convert mouse y to NDC
+  
+  rayCaster.setFromCamera(mouse, camera); // cast ray from camera through mouse position
+
+   if(!selectedObj) {
+      if(!loaded_mesh) return; // if spaceship not loaded yet, do nothing
+
+      var shipHits = rayCaster.intersectObject(loaded_mesh); // check if spaceship is clicked
+      if(shipHits.length > 0) {
+         selectedObj = loaded_mesh; // select the spaceship
+         selectedObj.material.color.set(0xff0000); // change color to indicate selection
+      }
+   } else {
+      var dropPoint = new THREE.Vector3();
+      var ok = rayCaster.ray.intersectPlane(movePlane, dropPoint); // find intersection with move plane
+      if(ok) {
+         selectedObj.position.copy(dropPoint); // move spaceship to clicked point
+         selectedObj.material.color.set(0xffffff); // reset color
+         selectedObj = null; // deselect spaceship
+      }
+   } 
   
 }
 
