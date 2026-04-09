@@ -6,20 +6,46 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="js/three.js"></script>
+        <script src="js/three.min.js"></script>
         <script src="js/OrbitControls.js"></script>
         <script src="js/PLYLoader.js"></script>
+        <script src="js/dat.gui.min.js"></script>
+        <link rel="icon" href="data:,">
         <link rel="stylesheet" href="css/layout.css">
         <title>CG Labs</title>
     </head>
 
     <body>
         <div id="info">
-            <H1>Computer Graphics Demo</H1>
+            <H1 id="pageTitle">Computer Graphics Demo</H1>
         </div>
-        <script src="labs/lab06/setup.js"></script>
-        <script src="labs/lab06/build.js"></script>
-        <script src="labs/lab06/animate.js"></script>
-        <script src="labs/lab06/run.js"></script>
+        <script src="labs/lab07/setup.js"></script>
+        <script src="labs/lab07/build.js"></script>
+        <script src="labs/lab07/animate.js"></script>
+        <script src="labs/lab07/run.js"></script>
+        <script>
+            (function setDynamicLabTitle() {
+                var scripts = document.querySelectorAll('script[src]');
+                var currentLab = null;
+
+                for (var i = 0; i < scripts.length; i++) {
+                    var src = scripts[i].getAttribute('src');
+                    var match = src && src.match(/labs\/lab(\d+)/i);
+                    if (match) {
+                        currentLab = parseInt(match[1], 10);
+                    }
+                }
+
+                if (currentLab !== null && !isNaN(currentLab)) {
+                    document.title = 'CG Labs - Lab ' + currentLab;
+
+                    var heading = document.getElementById('pageTitle');
+                    if (heading) {
+                        heading.textContent = 'Computer Graphics Demo - Lab ' + currentLab;
+                    }
+                }
+            })();
+        </script>
     </body>
 
 </html>
