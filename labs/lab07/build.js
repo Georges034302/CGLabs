@@ -313,6 +313,34 @@ var gui;
 function buildAsteroidBelt() {
 
     // add code here to build the asteroid belt using the parameters defined above
+    if (asteroidBelt) {
+        scene.remove(asteroidBelt);
+    }
+    
+    asteroidBelt = new THREE.Group();
+
+    for (var i = 0; i < asteroidCount; i++) {
+        var angle = Math.random() * 2 * Math.PI;
+        var radius = beltRadius + (Math.random() - 0.5) * beltWidth;
+        var y = (Math.random() - 0.5) * 1.2; // small vertical variation
+
+        var geometry = new THREE.SphereGeometry(1, 8, 8);
+        var material = new THREE.MeshPhongMaterial({ color: 0x888888 });
+
+        var asteroid = new THREE.Mesh(geometry, material);
+        asteroid.position.set(radius * Math.cos(angle), y, radius * Math.sin(angle));
+
+        var sx = asteroidSize * (0.5 + Math.random()); // random scale for irregularity
+        var sy = asteroidSize * (0.5 + Math.random());
+        var sz = asteroidSize * (0.5 + Math.random());
+        asteroid.scale.set(sx, sy, sz);
+
+        asteroid.castShadow = true;
+        asteroid.receiveShadow = true;
+
+        asteroidBelt.add(asteroid);
+    }
+    scene.add(asteroidBelt);
 }
 
 /* -----------------------------------------------------
