@@ -352,8 +352,37 @@ function buildAsteroidBelt() {
 function buildGui() {
 
     // add code here to create a dat.GUI interface for controlling the asteroid belt parameters defined above
-    
+    gui = new dat.GUI();
 
+    var params = {
+        beltRadius: beltRadius,
+        beltWidth: beltWidth,
+        asteroidCount: asteroidCount,
+        asteroidSize: asteroidSize,
+        rotationSpeed: rotationSpeed
+    };
+
+    gui.add(params, 'beltRadius', earthOrbit + 2, earthOrbit + 15).onChange(function(value) {
+        beltRadius = value;
+        buildAsteroidBelt();
+    });
+    gui.add(params, 'beltWidth', 1, 10).onChange(function(value) {
+        beltWidth = value;
+        buildAsteroidBelt();
+    });
+    gui.add(params, 'asteroidCount', 50, 500).step(1).onChange(function(value) {
+        asteroidCount = value;
+        buildAsteroidBelt();
+    });
+    gui.add(params, 'asteroidSize', 0.1, 1).onChange(function(value) {
+        asteroidSize = value;
+        buildAsteroidBelt();
+    });
+    gui.add(params, 'rotationSpeed', 0.001, 0.02).onChange(function(value) {
+        rotationSpeed = value;
+    });
+
+    gui.open();
 }
 
 /* Define the add shapes function */
