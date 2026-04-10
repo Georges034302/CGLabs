@@ -1,8 +1,15 @@
 /* global backgroundMaterial, renderer, scene, camera */
-/* global marioSprite, ghostSprite, clock, scrollOffset, marioBaseY, ghostBaseY, ghostBaseX */
+/* global marioSprite, ghostSprite, clock, scrollOffset, marioBaseY, ghostBaseY, ghostBaseX, animatedVideos */
 
 function animateScene() {
     var elapsed = clock.getElapsedTime();
+
+    for (var i = 0; i < animatedVideos.length; i += 1) {
+        var video = animatedVideos[i];
+        if (video.paused && video.readyState >= 2) {
+            video.play().catch(function() {});
+        }
+    }
 
     if (backgroundMaterial && backgroundMaterial.map) {
         scrollOffset += 0.22 * clock.getDelta();
