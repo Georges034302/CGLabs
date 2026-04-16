@@ -10,6 +10,8 @@
         <script src="js/OrbitControls.js"></script>
         <script src="js/PLYLoader.js"></script>
         <script src="js/dat.gui.min.js"></script>
+        <script src="js/OBJLoader.js"></script>
+        <script src="js/MTLLoader.js"></script>
         <link rel="icon" href="data:,">
         <link rel="stylesheet" href="css/layout.css">
         <title>CG Labs</title>
@@ -17,35 +19,27 @@
 
     <body>
         <div id="info">
-            <H1 id="pageTitle">Computer Graphics Demo</H1>
+            <div id="titleBar">
+                <p id="pageTitle">Computer Graphics Demo</p>
+                <span id="titleSeparator" aria-hidden="true">-</span>
+                <label id="labSelectorLabel" for="labSelector">Lab</label>
+                <select id="labSelector" aria-label="Select lab">
+                    <option value="">Select</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+            <div id="labStatus" hidden></div>
         </div>
-        <script src="labs/lab07/setup.js"></script>
-        <script src="labs/lab07/build.js"></script>
-        <script src="labs/lab07/animate.js"></script>
-        <script src="labs/lab07/run.js"></script>
-        <script>
-            (function setDynamicLabTitle() {
-                var scripts = document.querySelectorAll('script[src]');
-                var currentLab = null;
-
-                for (var i = 0; i < scripts.length; i++) {
-                    var src = scripts[i].getAttribute('src');
-                    var match = src && src.match(/labs\/lab(\d+)/i);
-                    if (match) {
-                        currentLab = parseInt(match[1], 10);
-                    }
-                }
-
-                if (currentLab !== null && !isNaN(currentLab)) {
-                    document.title = 'CG Labs - Lab ' + currentLab;
-
-                    var heading = document.getElementById('pageTitle');
-                    if (heading) {
-                        heading.textContent = 'Computer Graphics Demo - Lab ' + currentLab;
-                    }
-                }
-            })();
-        </script>
+        <script src="js/lab-loader.js"></script>
     </body>
 
 </html>

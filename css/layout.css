@@ -12,21 +12,79 @@ body {
     font-family: Monospace;
     margin: 0px;
     overflow: hidden;
+    background-color: #000000;
 }
 
 #info {
     position: absolute;
-    top: 10px;
+    top: 12px;
+    left: 16px;
     width: 100%;
-    text-align: center;
+    text-align: left;
+    --title-size: 24px;
 }
 
-h1 {
-    text-align: center;
+#titleBar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    width: fit-content;
+    padding: 6px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    background: linear-gradient(90deg, rgba(35, 68, 93, 0.96), rgba(18, 44, 63, 0.96));
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+#pageTitle {
+    text-align: left;
     color: cornsilk;
-    font-size: 300%;
-    background-color: #23445D;
-    width: 100%;
-    padding: 10px 5px;
-    margin-top: auto;
+    font-size: var(--title-size);
+    background-color: transparent;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+#titleSeparator,
+#labSelectorLabel {
+    color: cornsilk;
+    font-size: var(--title-size);
+    line-height: 1;
+}
+
+#labSelector {
+    min-width: 62px;
+    padding: 1px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    background-color: rgba(245, 241, 220, 0.96);
+    color: #12344a;
+    font-family: Monospace;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+#labStatus {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 0;
+    background-color: transparent;
+    color: #ffd54a;
+    border-radius: 0;
+    font-size: 24px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255, 213, 74, 0.35);
+}
+
+#labStatus.centered-status {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 0;
+    z-index: 10;
 }

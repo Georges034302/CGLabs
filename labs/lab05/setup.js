@@ -4,14 +4,13 @@ var camera;     // defines what part of the scene we see
 var renderer;   // responsible for drawing graphics on screen
 var controls;   // handles mouse interaction (orbit + zoom)
 
-/* Define the setup screen function
- * Setup the 3 main components: scene, camera, renderer
- * - setup the scene ratio to entire window
- * - create a perspective camera
- * - create a WebGl renderer
- * - append the renderer to the HTML document body
- * - add controls to the scene (mouse zoom + orbit)
- */
+/* -----------------------------------------------------------
+ * CORE (Labs 1-10): setScene()
+ * Shared setup used across the lab sequence.
+ * - initialize scene, camera, and renderer
+ * - attach the renderer canvas to the page
+ * - configure controls and lab-specific runtime options
+ * ----------------------------------------------------------- */
 function setScene() {
     scene = new THREE.Scene(); // create a new empty 3D scene
     var ratio = window.innerWidth / window.innerHeight; // calculate screen aspect ratio
@@ -37,13 +36,13 @@ function setScene() {
    
 }
 
-/* Define the resize screen function
- * - setup the scene width and height to the entire window
- * - setup the renderer size to the width and height
- * - set the camera ratio to width / height
- * - update the camera projection matrix
- * - render the view (scene, camera)
- */
+/* -----------------------------------------------------------
+ * CORE (Labs 1-10): resizeScene()
+ * Shared resize handler used across the lab sequence.
+ * - update renderer size to match the window
+ * - update camera aspect/projection
+ * - re-render after resize to keep the view consistent
+ * ----------------------------------------------------------- */
 var resizeScene = function() {
     var width = window.innerWidth; // get updated window width
     var height = window.innerHeight; // get updated window height
