@@ -400,7 +400,7 @@ var galactus;
    ----------------------------------------------------- */
 function loadGalactus() {
     // add code here to load the Galactus model using OBJLoader and MTLLoader, then add it to the scene
-    var modelBasePath = ["/models/","../models/","../../models/"]; // possible paths to find the model files
+    var modelBasePath = ["models/","../models/","../../models/"]; // possible paths to find the model files
     function loadFromPath(pathIndex) {
         
         if(pathIndex >= modelBasePath.length) {
