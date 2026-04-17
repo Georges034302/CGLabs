@@ -54,8 +54,29 @@ function animateAsteroidBelt() {
    - remove asteroids that are close enough
    ----------------------------------------------------- */
 function animateGalactus() {
-   // add code here to check distance from each asteroid to Galactus and remove asteroids that are close enough
-   
+      // add code here to check distance from each asteroid to Galactus and remove asteroids that are close enough
+      if (typeof asteroidBelt === "undefined" || !asteroidBelt) {
+         return;
+      }
+      if (typeof galactus === "undefined" || !galactus) {
+         return;
+      }
+
+      scene.updateMatrixWorld(); // Ensure world matrices are up to date
+
+      var galactusPosition = new THREE.Vector3();
+      galactus.getWorldPosition(galactusPosition); // Get Galactus's world position 
+
+      for (let i = asteroidBelt.children.length - 1; i >= 0; i--) {
+         var asteroid = asteroidBelt.children[i];
+         var asteroidPosition = new THREE.Vector3();
+         asteroid.getWorldPosition(asteroidPosition); // Get asteroid's world position
+
+         if (galactusPosition.distanceTo(asteroidPosition) < 4) { // Check if asteroid is within 4 units of Galactus
+            asteroidBelt.remove(asteroid); // Remove asteroid from the belt
+         }  
+      }
+
 }
 
 /* Single main loop (Lab 2 + Lab 3 + Lab 7 + Lab 8) */
