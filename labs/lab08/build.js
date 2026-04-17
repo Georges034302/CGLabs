@@ -407,7 +407,7 @@ function loadGalactus() {
             console.error("Failed to load Galactus model from all paths");
             return;
         }
-        var basePath = modelBasePath[0];
+        var basePath = modelBasePath[pathIndex];
 
         var mtlLoader = new THREE.MTLLoader();
         mtlLoader.setPath(basePath);
@@ -443,11 +443,9 @@ function loadGalactus() {
                 scene.add(galactus);   
 
             }, undefined, function() {
-                galactus = object;
                 loadFromPath(pathIndex + 1); // try next path
             });
         }, undefined, function() {
-            galactus = object;
             loadFromPath(pathIndex + 1); // try next path
     });
 }
