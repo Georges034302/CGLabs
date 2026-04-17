@@ -55,6 +55,9 @@ function animateAsteroidBelt() {
    ----------------------------------------------------- */
 function animateGalactus() {
    // add code here to check distance from each asteroid to Galactus and remove asteroids that are close enough
+   if (typeof galactus === "undefined" || !galactus || typeof asteroidBelt === "undefined" || !asteroidBelt) return; 
+   
+   
    scene.updateMatrixWorld(); // ensure world matrices are up to date
 
    var galactusPosition = new THREE.Vector3();
