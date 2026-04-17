@@ -1,4 +1,4 @@
-/* global THREE, scene, renderer, camera */
+/* global THREE, scene, camera */
 
 /* global textureLoader, backgroundMaterial, marioSprite, ghostSprite, animatedVideos */
 
@@ -21,7 +21,25 @@ function createImageSprite(path, scaleX, scaleY, x, y, z) {
     var texture = textureLoader.load(path);
     texture.magFilter = THREE.NearestFilter;
     texture.minFilter = THREE.LinearFilter;
-    var material = new THREE.SpriteMaterial({ map: texture, transparent: true });
+    var material = new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true,
+        alphaTest: 0.02
+    });
+    material.onBeforeCompile = function(shader) {
+        shader.fragmentShader = shader.fragmentShader.replace(
+            '#include <map_fragment>',
+            [
+                '#ifdef USE_MAP',
+                '    vec4 sampledDiffuseColor = texture2D(map, vUv);',
+                '    float brightness = max(max(sampledDiffuseColor.r, sampledDiffuseColor.g), sampledDiffuseColor.b);',
+                '    float keyedAlpha = smoothstep(0.03, 0.14, brightness);',
+                '    sampledDiffuseColor.a *= keyedAlpha;',
+                '    diffuseColor *= sampledDiffuseColor;',
+                '#endif'
+            ].join('\n')
+        );
+    };
     var sprite = new THREE.Sprite(material);
     sprite.scale.set(scaleX, scaleY, 1);
     sprite.position.set(x, y, z);
@@ -36,12 +54,34 @@ function createVideoSprite(path, fallbackPath, scaleX, scaleY, x, y, z) {
     video.autoplay = true;
     video.playsInline = true;
     video.preload = 'auto';
+    if (path === 'ghost.mp4') {
+        video.playbackRate = 0.18;
+    }
 
     var texture = new THREE.VideoTexture(video);
     texture.magFilter = THREE.NearestFilter;
     texture.minFilter = THREE.LinearFilter;
 
-    var material = new THREE.SpriteMaterial({ map: texture });
+    var material = new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true,
+        alphaTest: 0.02
+    });
+    material.onBeforeCompile = function(shader) {
+        shader.fragmentShader = shader.fragmentShader.replace(
+            '#include <map_fragment>',
+            [
+                '#ifdef USE_MAP',
+                '    vec4 sampledDiffuseColor = texture2D(map, vUv);',
+                '    float brightness = max(max(sampledDiffuseColor.r, sampledDiffuseColor.g), sampledDiffuseColor.b);',
+                '    float keyedAlpha = smoothstep(0.03, 0.14, brightness);',
+                '    sampledDiffuseColor.a *= keyedAlpha;',
+                '    diffuseColor *= sampledDiffuseColor;',
+                '#endif'
+            ].join('\n')
+        );
+    };
+
     var sprite = new THREE.Sprite(material);
     sprite.scale.set(scaleX, scaleY, 1);
     sprite.position.set(x, y, z);
@@ -52,6 +92,9 @@ function createVideoSprite(path, fallbackPath, scaleX, scaleY, x, y, z) {
             return;
         }
         started = true;
+        if (path === 'ghost.mp4') {
+            video.playbackRate = 0.18;
+        }
         video.play().catch(function() {
             scene.remove(sprite);
             var fallback = createImageSprite(fallbackPath, scaleX, scaleY, x, y, z);
@@ -72,9 +115,9 @@ function createVideoSprite(path, fallbackPath, scaleX, scaleY, x, y, z) {
 function addShapes() {
     createBackground();
 
-    marioSprite = createVideoSprite('mario.mp4', 'mario.gif', 5.8, 5.8, -2.4, -4.5, 1);
+    marioSprite = createVideoSprite('mario.mp4', 'mario.gif', 1.5, 1.5, 0, -4.5, 1);
     scene.add(marioSprite);
 
-    ghostSprite = createVideoSprite('ghost.mp4', 'ghost.gif', 4.2, 4.2, -6, -2.7, -1.5);
+    ghostSprite = createVideoSprite('ghost.mp4', 'ghost.gif', 1.5, 1.5, -9.2, 4.8, -1.5);
     scene.add(ghostSprite);
 }

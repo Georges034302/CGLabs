@@ -9,9 +9,10 @@ var marioSprite;
 var ghostSprite;
 var clock;
 var scrollOffset = 0;
-var marioBaseY = -4.5;
-var ghostBaseY = -2.7;
-var ghostBaseX = -6;
+var marioBaseX = 0;
+var marioBaseY = -3;
+var ghostBaseY = 4.8;
+var ghostBaseX = -9.2;
 var animatedVideos = [];
 
 /* Define the setup screen function
