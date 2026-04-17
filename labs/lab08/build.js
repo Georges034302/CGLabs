@@ -400,9 +400,60 @@ var galactus;
    ----------------------------------------------------- */
 function loadGalactus() {
     // add code here to load the Galactus model using OBJLoader and MTLLoader, then add it to the scene
-    var modelBasePath = ["models/","../models/","../../models/"]; // possible paths to find the model files
-    
-    
+    var modelBasePath = ["models/", "/models/","../../models/"];
+
+    function loadFromPath(pathIndex){
+        if (pathIndex >= modelBasePath.length) {
+            console.error("Failed to load Galactus model from all paths.");
+            return;
+        }
+        var basePath = modelBasePath[pathIndex];
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.setPath(basePath);
+        mtlLoader.load("Librarian.obj.mtl", function(materials) {
+            materials.preload();
+
+            var objLoader = new THREE.OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.setPath(basePath);
+            
+            objLoader.load("Librarian.obj", function(object) {
+                var bbox = new THREE.Box3().setFromObject(object);
+                var center = new THREE.Vector3();
+                var size = new  THREE.Vector3();
+                bbox.getCenter(center);
+                bbox.getSize(size);
+                object.position.sub(center); // center the model
+
+                var scaleFactor = 12/ Math.max(size.x, size.y, size.z);
+                object.scale.set(scaleFactor, scaleFactor, scaleFactor);
+                object.position.set(30, 0, 0); // position Galactus in the scene
+                object.rotation.y = -Math.PI/2; // rotate to face the solar system
+
+                object.traverse(function(child) {
+                    if (child instanceof THREE.Mesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                });
+
+                galactus = object;
+                galactus.name = "galactus";
+                scene.add(galactus);    
+
+            }, undefined, function() {
+                console.warn("Failed to load OBJ file from path: " + basePath + ". Trying next path...");
+                loadFromPath(pathIndex + 1);
+            });
+
+
+
+        }, undefined, function() {
+            console.warn("Failed to load MTL file from path: " + basePath + ". Trying next path...");
+            loadFromPath(pathIndex + 1);
+        });
+    }
+    loadFromPath(0);
 }
 
 
