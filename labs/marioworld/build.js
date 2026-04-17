@@ -1,18 +1,41 @@
 /* global THREE, scene, camera */
 
-/* global textureLoader, backgroundMaterial, marioSprite, ghostSprite, animatedVideos */
+/* global textureLoader, backgroundMaterial, backgroundMesh, ghostSprite, animatedVideos, ghostVideo */
+/* global marioOverlay, marioBaseX, marioGroundY, ghostBaseX, ghostBaseY, ghostCurrentX, ghostCurrentY */
+
+function getBackgroundViewportSize() {
+    var distance = camera.position.z + 10;
+    var height = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov * 0.5)) * distance;
+
+    return {
+        width: height * camera.aspect,
+        height: height
+    };
+}
+
+function updateBackgroundSize() {
+    var viewportSize = getBackgroundViewportSize();
+
+    if (!backgroundMesh) {
+        return;
+    }
+
+    backgroundMesh.scale.set(viewportSize.width, viewportSize.height, 1);
+}
 
 function createBackground() {
     var bgTexture = textureLoader.load('background.png');
     bgTexture.wrapS = THREE.RepeatWrapping;
     bgTexture.wrapT = THREE.ClampToEdgeWrapping;
-    bgTexture.repeat.set(camera.aspect * 1.6, 1);
+    bgTexture.repeat.set(1, 1);
+    bgTexture.center.set(0.5, 0.5);
     bgTexture.magFilter = THREE.NearestFilter;
     bgTexture.minFilter = THREE.LinearFilter;
 
     backgroundMaterial = new THREE.MeshBasicMaterial({ map: bgTexture });
-    var backgroundGeometry = new THREE.PlaneGeometry(32, 18);
-    var backgroundMesh = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
+    var backgroundGeometry = new THREE.PlaneGeometry(1, 1);
+    backgroundMesh = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
+    updateBackgroundSize();
     backgroundMesh.position.set(0, 0, -10);
     scene.add(backgroundMesh);
 }
@@ -53,6 +76,8 @@ function createVideoSprite(path, fallbackPath, scaleX, scaleY, x, y, z) {
     video.muted = true;
     video.autoplay = true;
     video.playsInline = true;
+
+
     video.preload = 'auto';
     if (path === 'ghost.mp4') {
         video.playbackRate = 0.18;
@@ -86,6 +111,10 @@ function createVideoSprite(path, fallbackPath, scaleX, scaleY, x, y, z) {
     sprite.scale.set(scaleX, scaleY, 1);
     sprite.position.set(x, y, z);
 
+    if (path === 'ghost.mp4') {
+        ghostVideo = video;
+    }
+
     var started = false;
     function startVideo() {
         if (started) {
@@ -98,9 +127,7 @@ function createVideoSprite(path, fallbackPath, scaleX, scaleY, x, y, z) {
         video.play().catch(function() {
             scene.remove(sprite);
             var fallback = createImageSprite(fallbackPath, scaleX, scaleY, x, y, z);
-            if (path === 'mario.mp4') {
-                marioSprite = fallback;
-            } else {
+            if (path === 'ghost.mp4') {
                 ghostSprite = fallback;
             }
             scene.add(fallback);
@@ -112,12 +139,33 @@ function createVideoSprite(path, fallbackPath, scaleX, scaleY, x, y, z) {
     return sprite;
 }
 
+function createMarioOverlay() {
+    if (!marioOverlay) {
+        return;
+    }
+
+    marioOverlay.src = 'mario.gif';
+    marioOverlay.dataset.mode = 'normal';
+    marioOverlay.style.position = 'fixed';
+    marioOverlay.style.left = '50%';
+    marioOverlay.style.bottom = '72px';
+    marioOverlay.style.top = 'auto';
+    marioOverlay.style.width = '96px';
+    marioOverlay.style.height = '96px';
+    marioOverlay.style.transform = 'translateX(-50%)';
+    marioOverlay.style.pointerEvents = 'none';
+    marioOverlay.style.zIndex = '5';
+    marioOverlay.style.display = 'block';
+    marioOverlay.style.visibility = 'visible';
+    marioOverlay.style.opacity = '1';
+}
+
 function addShapes() {
     createBackground();
+    createMarioOverlay();
 
-    marioSprite = createVideoSprite('mario.mp4', 'mario.gif', 1.5, 1.5, 0, -4.5, 1);
-    scene.add(marioSprite);
-
-    ghostSprite = createVideoSprite('ghost.mp4', 'ghost.gif', 1.5, 1.5, -9.2, 4.8, -1.5);
+    ghostCurrentX = ghostBaseX;
+    ghostCurrentY = ghostBaseY;
+    ghostSprite = createVideoSprite('ghost.mp4', 'ghost.gif', 1.5, 1.5, ghostCurrentX, ghostCurrentY, -1.5);
     scene.add(ghostSprite);
 }
