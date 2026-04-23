@@ -7,7 +7,7 @@
  */
 (function() {
     var ALL_LABS = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"];
-    var IMPLEMENTED_LABS = ["01", "02", "03", "04", "05", "06", "07", "08"];
+    var IMPLEMENTED_LABS = ["01", "02", "03", "04", "05", "06", "07", "08", "09"];
     var LAB_SCRIPTS = ["setup.js", "build.js", "animate.js", "run.js"];
 
     // Resolve the requested lab from ?lab=XX and allow a no-selection landing state.
