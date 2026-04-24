@@ -473,8 +473,20 @@ var beamLeft, beamRight;
 function createGalactusBeams() {
 
     // add code here to create two red beam meshes (e.g. thin boxes) and store them in the beamLeft and beamRight variables, then add them to the scene
+    var beamGeometry = new THREE.CylinderGeometry(0.08,0.08,12.5,12.5);
+    var beamMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
+    
+    beamLeft = new THREE.Mesh(beamGeometry,beamMaterial);
+    beamRight = new THREE.Mesh(beamGeometry,beamMaterial);
 
+    beamLeft.visible = false;
+    beamRight.visible = false;
 
+    beamLeft.rotation.z = -Math.PI/6;
+    beamRight.rotation.z = -Math.PI/6;
+
+    scene.add(beamLeft);
+    scene.add(beamRight);
 }
 
 
