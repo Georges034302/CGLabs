@@ -90,13 +90,70 @@ var beamCooldown = 0;
 
 /* -----------------------------------------------------
    LAB 9: Galactus eye beam animation
-   - when belt reaches x = 25, Galactus fires beams
-   - beams stay active for 0.1 seconds
+   - when belt reaches x = 22, Galactus fires beams
+   - beams stay active for 0.4 seconds
    - asteroids close to Galactus are removed
    ----------------------------------------------------- */
 function animateGalactusBeam() {
    // add code here to check if asteroid belt has reached x = 25, activate beams for 0.1 seconds, and remove asteroids close to Galactus while beams are active
-   
+   if(typeof galactus === "undefined" || !galactus) return;
+   if(typeof asteroidBelt === "undefined" || !asteroidBelt) return;
+   if(typeof beamLeft === "undefined" || !beamLeft) return;
+   if(typeof beamRight === "undefined" || !beamRight) return;
+
+   scene.updateMatrixWorld();
+
+   var dt = 1/100;
+
+   if(beamCooldown > 0){
+      beamCooldown -= dt;
+   }
+
+   if(!beamActive && beltRadius >= 22 && beamCooldown <= 0){
+      beamActive = true;
+      beamTimer = beamDuration;
+      beamCooldown = 2;
+   }
+
+   if(beamActive){
+      beamTimer -= dt;
+
+      beamLeft.visible = true;
+      beamRight.visible = true;
+
+      var galactusPosition = new THREE.Vector3();
+      galactus.getWorldPosition(galactusPosition);
+
+      var eyeY = galactusPosition.y + 8.6;
+      var beamHalf = 6.25;
+
+      var cx = galactusPosition.x - beamHalf*Math.sin(Math.PI/3) + 1;
+      var cy = eyeY - beamHalf*Math.cos(Math.PI/3);
+
+      beamLeft.position.set(cx,cy,galactusPosition.z-0.5);
+      beamRight.position.set(cx,cy,galactusPosition.z+0.5);
+
+      for(var i=asteroidBelt.children.length-1;i>=0;i--){
+         var astroid = asteroidBelt.children[i];
+
+         var asteroidPosition = new THREE.Vector3();
+         astroid.getWorldPosition(asteroidPosition);
+
+         if(galactusPosition.distanceTo(asteroidPosition) < 6){
+            asteroidBelt.remove(astroid);
+         }
+      }
+
+      if(beamTimer <= 0){
+         beamActive = false;
+         beamLeft.visible = false;
+         beamRight.visible = false;
+      }
+
+   }else{
+      beamLeft.visible = false;
+      beamRight.visible = false;
+   }
 }
 
 /* Single main loop (Lab 2 + Lab 3 + Lab 7 + Lab 8 + Lab 9) */
