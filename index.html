@@ -40,6 +40,37 @@
             <div id="labStatus" hidden></div>
         </div>
         <script src="js/lab-loader.js"></script>
+        
+        <!-- =========================================================
+        Lab 10 – Vertex Shader
+        ========================================================= -->
+        <script type="x-shader/x-vertex" id="particleVertexShader">
+            attribute float alpha;
+            varying float vAlpha;
+            void main() {
+                // pass alpha to fragment shader
+                vAlpha = alpha;
+                // standard vertex transformation
+                vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                // render each vertex as a small point
+                gl_PointSize = 2.0;
+                // final screen position
+                gl_Position = projectionMatrix * mvPosition;
+            }
+        </script>
+
+        <!-- =========================================================
+            Lab 10 – Fragment Shader
+            ========================================================= -->
+        <script type="x-shader/x-fragment" id="particleFragmentShader">
+            uniform vec3 color;
+            varying float vAlpha;
+            void main() {
+
+                // combine uniform colour with per-vertex alpha
+                gl_FragColor = vec4(color, vAlpha);
+            }
+        </script>
     </body>
 
 </html>
