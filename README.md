@@ -16,6 +16,7 @@ The labs cover:
 - interaction with raycasting
 - textured OBJ/MTL assets
 - graphics pipeline interaction effects
+- custom GLSL shaders and GPU-driven particle rendering
 
 ## How Lab Selection Works
 
@@ -27,7 +28,7 @@ The root page uses a shared selector and loader:
 Examples:
 - `?lab=01` to `?lab=08`: fully implemented labs
 - `?lab=09`: graphics pipeline interaction lab (Galactus beam scenario)
-- `?lab=10`: placeholder state with a "coming soon" message
+- `?lab=10`: custom shader lab with a Sun-centered particle cloud
 - no `lab` parameter: neutral landing page with prompt to select a lab
 
 ## Repository Structure
@@ -59,7 +60,7 @@ CGLabs/
 7. Lab 07: Procedural asteroid belt with GUI controls
 8. Lab 08: Textured OBJ/MTL loading and asteroid-consumption interaction
 9. Lab 09: Graphics pipeline interaction (Galactus eye-beam concept and asteroid removal flow)
-10. Lab 10: Coming soon
+10. Lab 10: Custom shaders and GPU rendering (solar emission particle cloud with BufferGeometry + ShaderMaterial)
 
 ## Tech Stack
 
