@@ -506,27 +506,28 @@ var cloudScale = 1.0;
 function buildShaderCloud() {
 
     // add code here to create a shader-based cloud effect around the Sun using a point sphere and custom shaders
-    var numVertices = 2500;
-    var radius = cloudBaseRadius;
+    var numVertices = 2500; // how many particles
+    var radius = cloudBaseRadius; // initial radius of particles
 
-    var positions = new Float32Array(numVertices*3); // store the XYZ for all 2500 particles
-    var alphas =  new Float32Array(numVertices); // store the fades of particles
+    var positions = new Float32Array(numVertices * 3); // store xyz of particles
+    var alphas = new  Float32Array(numVertices); // storee the color fade
 
-    for(var i=0; i <= numVertices; i++){  // distribute the 2500 particles uniformly acrossthe sphere (surface)
-        var theta = Math.acos(2*Math.random()-1); //vertical angle of particle [0,180]
-        var phi = 2*Math.PI*Math.random(); // hoorizontal angle [0,360]   
-        positions[i*3] = radius*Math.sin(theta)*Math.cos(phi); //Xor carterien X
-        positions[i*3 +1] = radius*Math.sin(theta)*Math.sin(phi); // Y
-        positions[i*3 +2] = radius*Math.cos(theta); // Z
-        alphas[i] = 0.75 + 0.25 * Math.random(); // opacity of each particle [0.75 - 1.0]
+    for(var i=0;i< numVertices; i++){
+        var theta = Math.acos(2*Math.random() -1); // vertical angle for each particle [0,PI]
+        var phi = 2*Math.PI*Math.random(); // horizontal angle for each particle between [0,2PI]
+
+        positions[i*3]   = radius*Math.sin(theta)*Math.cos(phi); // X pos
+        positions[i*3+1] = radius*Math.sin(theta)*Math.sin(phi); // Y pos
+        positions[i*3+2] = radius*Math.cos(theta); //Z pos
+        alphas[i] = 0.75 +0.25*Math.random(); // value between 0.75 and 1
     }
 
-    var geometry = new THREE.BufferGeometry(); // the lowest level geomettry definition
-    geometry.addAttribute('position',new THREE.BufferAttribute(positions,3)); // passing the XYZ to vertex shader as position of each particle
-    geometry.addAttribute('alpha', new THREE.BufferAttribute(alphas,1)); // pass the fades to shader
+    var geometry = new THREE.BufferGeometry(); // custom shape
+    geometry.addAttribute('position', new THREE.BufferAttribute(positions,3)); // pass xyz to vrertex shader
+    geometry.addAttribute('alpha',new THREE.BufferAttribute(alphas,1)); // pass the alphas to the shader
 
     var uniforms = {
-        color: {value: new THREE.Color(1.0,0.65,0.15)}
+        color: {value: new THREE.Color(1,0.65,0.15)},
     }
 
     var shaderMaterial = new THREE.ShaderMaterial({
@@ -538,7 +539,7 @@ function buildShaderCloud() {
     });
 
     cloud = new THREE.Points(geometry,shaderMaterial);
-    cloud.position.set(0,0,0);
+    cloud.position.set(0,0,0)
     scene.add(cloud);
 }
 
