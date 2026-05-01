@@ -172,6 +172,37 @@ var cloudMaxScale = 8.0;
    ----------------------------------------------------- */
 function animateCloud() {
    // add code here to animate the solar emission cloud
+   if(typeof cloud === 'undefined' || !cloud) return;
+   cloud.position.set(0,0,0);
+
+   cloudScale += cloudGrowthSpeed;
+   cloud.scale.set(cloudScale,cloudScale,cloudScale);
+
+   var alphaAttribute = cloud.geometry.attributes.alpha; // get each point fader
+   var alphas = alphaAttribute.array;
+
+   for (var i = 0; i < alphas.length; i++){
+      alphas[i] *= 0.9985;
+
+      if (alphas[i] < 0.02){
+         alphas[i] = 0.02;
+      }
+   }
+
+   alphaAttribute.needsUpdate = true;
+
+   cloud.rotation.y += 0.003; // rotate small factor around y axis
+
+   if(cloudScale >= cloudMaxScale){
+      cloudScale = 1.0;
+      cloud.scale.set(cloudScale,cloudScale,cloudScale);
+
+      for (var j=0; j < alphas.length; j++){
+         alphas[j] = 0.75 + 0.25*Math.random();
+      }
+
+      alphaAttribute.needsUpdate = true;
+   }
 
 }
 
