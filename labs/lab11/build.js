@@ -27,6 +27,31 @@ var haloA, haloB; // two perpendicular Dyson halos (Lab 3)
    ----------------------------------------------------- */
 var loaded_mesh;
 
+/* -----------------------------------------------------
+    LAB 11: Gameplay object aliases and combat storage
+    - playerShip points to the controllable spaceship mesh
+    - projectiles stores all active bullet meshes
+----------------------------------------------------- */
+var playerShip = null;
+var projectiles = [];
+
+/* -----------------------------------------------------
+    LAB 11: Projectile tuning constants
+    ----------------------------------------------------- */
+var projectileSpeed = 48; // units per second
+var projectileLifeSeconds = 2.0; // remove old bullets
+
+/* -----------------------------------------------------
+    LAB 11: Boss health and HUD references
+    ----------------------------------------------------- */
+var galactusMaxHealth = 100;
+var galactusHealth = galactusMaxHealth;
+var hudRoot = null;
+var hudHealthValue = null;
+var hudStatusValue = null;
+var legendRoot = null;
+var lab11HudPanelWidth = 245;
+
 /* Define base size constants (formula inputs) */
 var SUN_RADIUS = 3; // Sun radius (arbitrary units)
 var EARTH_RATIO = 0.5; // Earth radius (arbitrary units)
@@ -273,7 +298,7 @@ function loadSpaceship() {
         /* LAB 6: make spaceship clearly visible
            - use a larger fixed target size than before
            - this avoids the ship becoming too tiny */
-        var targetSize = 5;
+        var targetSize = 2.5; // half of previous size for tighter third-person framing
         var scaleFactor = targetSize / Math.max(size.x, size.y, size.z);
         loaded_mesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
@@ -288,6 +313,13 @@ function loadSpaceship() {
         loaded_mesh.receiveShadow = true;
 
         scene.add(loaded_mesh);
+
+        // LAB 11: this mesh becomes the player-controlled ship
+        playerShip = loaded_mesh;
+
+        // Store spawn transform so restart can put the ship back to a known state.
+        playerShip.userData.lab11SpawnPosition = playerShip.position.clone();
+        playerShip.userData.lab11SpawnRotation = playerShip.rotation.clone();
     });
 }
 
@@ -434,11 +466,24 @@ function loadGalactus() {
                     if (child instanceof THREE.Mesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;
+
+                        // Enable opacity fading for Lab 11 defeat animation.
+                        if (child.material) {
+                            child.material.transparent = true;
+                            child.material.opacity = 1;
+                            child.material.needsUpdate = true;
+                        }
                     }
                 });
 
                 galactus = object;
                 galactus.name = "galactus";
+
+                // Save baseline transform for perish/restart animations.
+                galactus.userData.lab11BasePosition = galactus.position.clone();
+                galactus.userData.lab11BaseScale = galactus.scale.clone();
+                galactus.userData.lab11BaseRotationY = galactus.rotation.y;
+
                 scene.add(galactus);  
                  //--LAB 9: Create Galactus eye beams after model is loaded--//
                 createGalactusBeams();  
@@ -543,6 +588,175 @@ function buildShaderCloud() {
     scene.add(cloud);
 }
 
+/* -----------------------------------------------------
+   LAB 11: Build a simple combat HUD in the DOM
+   - shows Galactus health and game status
+   - uses fixed positioning so it stays on screen
+----------------------------------------------------- */
+function createLab11Hud() {
+    if (hudRoot) return;
+
+    hudRoot = document.createElement("div");
+    hudRoot.style.position = "fixed";
+    hudRoot.style.top = "220px";
+    hudRoot.style.right = "12px";
+    hudRoot.style.width = lab11HudPanelWidth + "px";
+    hudRoot.style.boxSizing = "border-box";
+    hudRoot.style.display = "flex";
+    hudRoot.style.flexDirection = "column";
+    hudRoot.style.gap = "8px";
+    hudRoot.style.padding = "8px 12px";
+    hudRoot.style.borderRadius = "10px";
+    hudRoot.style.border = "1px solid rgba(200, 170, 255, 0.25)";
+    hudRoot.style.background = "rgba(8, 4, 20, 0.78)";
+    hudRoot.style.backdropFilter = "blur(3px)";
+    hudRoot.style.webkitBackdropFilter = "blur(3px)";
+    hudRoot.style.zIndex = "1000";
+    hudRoot.style.pointerEvents = "none";
+
+    var healthRow = document.createElement("div");
+    healthRow.style.display = "flex";
+    healthRow.style.alignItems = "baseline";
+    healthRow.style.gap = "6px";
+    healthRow.style.fontFamily = "monospace";
+    healthRow.style.fontSize = "13px";
+    healthRow.style.lineHeight = "1";
+
+    var healthLabel = document.createElement("span");
+    healthLabel.textContent = "HEALTH";
+    healthLabel.style.color = "rgba(200, 170, 255, 0.7)";
+    healthLabel.style.textTransform = "uppercase";
+    healthLabel.style.fontSize = "10px";
+    healthLabel.style.letterSpacing = "0.5px";
+    healthLabel.style.alignSelf = "center";
+
+    hudHealthValue = document.createElement("span");
+    hudHealthValue.style.color = "#ff7eb6";
+    hudHealthValue.style.fontWeight = "bold";
+    hudHealthValue.style.letterSpacing = "1.5px";
+
+    healthRow.appendChild(healthLabel);
+    healthRow.appendChild(hudHealthValue);
+
+    var statusRow = document.createElement("div");
+    statusRow.style.display = "flex";
+    statusRow.style.alignItems = "baseline";
+    statusRow.style.gap = "6px";
+    statusRow.style.fontFamily = "monospace";
+    statusRow.style.fontSize = "13px";
+    statusRow.style.lineHeight = "1";
+
+    var statusLabel = document.createElement("span");
+    statusLabel.textContent = "STATUS";
+    statusLabel.style.color = "rgba(200, 170, 255, 0.7)";
+    statusLabel.style.textTransform = "uppercase";
+    statusLabel.style.fontSize = "10px";
+    statusLabel.style.letterSpacing = "0.5px";
+    statusLabel.style.alignSelf = "center";
+
+    hudStatusValue = document.createElement("span");
+    hudStatusValue.style.color = "#eeddff";
+    hudStatusValue.style.fontWeight = "bold";
+    hudStatusValue.style.letterSpacing = "0.5px";
+
+    statusRow.appendChild(statusLabel);
+    statusRow.appendChild(hudStatusValue);
+
+    hudRoot.appendChild(healthRow);
+    hudRoot.appendChild(statusRow);
+    document.body.appendChild(hudRoot);
+
+    // Place HUD under dat.GUI so scoreboard starts below the dropdown controls.
+    positionLab11Hud();
+}
+
+/* -----------------------------------------------------
+   LAB 11: Position HUD below dat.GUI controls
+   - keeps scoreboard clear of the parameter dropdown area
+----------------------------------------------------- */
+function positionLab11Hud() {
+    if (!hudRoot) return;
+
+    var topOffset = 225; // fallback when GUI is unavailable (+5px lower)
+
+    if (gui && gui.domElement) {
+        // dat.GUI is top-right; place HUD just below its current height.
+        topOffset = gui.domElement.offsetTop + gui.domElement.offsetHeight + 15; // lower by 5px
+    }
+
+    hudRoot.style.top = topOffset + "px";
+
+    // Keep control legend aligned under the scoreboard box.
+    if (legendRoot) {
+        legendRoot.style.top = (topOffset + hudRoot.offsetHeight + 8) + "px";
+        legendRoot.style.right = hudRoot.style.right;
+        legendRoot.style.width = lab11HudPanelWidth + "px";
+        legendRoot.style.minHeight = hudRoot.offsetHeight + "px";
+    }
+}
+
+/* -----------------------------------------------------
+   LAB 11: Build controls legend panel under scoreboard
+   - matches scoreboard width and minimum height
+   - lists gameplay keys for quick reference
+----------------------------------------------------- */
+function createLab11Legend() {
+    if (legendRoot) return;
+
+    legendRoot = document.createElement("div");
+    legendRoot.style.position = "fixed";
+    legendRoot.style.right = "12px";
+    legendRoot.style.width = lab11HudPanelWidth + "px";
+    legendRoot.style.boxSizing = "border-box";
+    legendRoot.style.padding = "8px 12px";
+    legendRoot.style.color = "#eeddff";
+    legendRoot.style.background = "rgba(8, 4, 20, 0.78)";
+    legendRoot.style.border = "1px solid rgba(200, 170, 255, 0.25)";
+    legendRoot.style.borderRadius = "10px";
+    legendRoot.style.backdropFilter = "blur(3px)";
+    legendRoot.style.webkitBackdropFilter = "blur(3px)";
+    legendRoot.style.fontFamily = "monospace";
+    legendRoot.style.fontSize = "11px";
+    legendRoot.style.lineHeight = "1.4";
+    legendRoot.style.zIndex = "1000";
+    legendRoot.style.pointerEvents = "none";
+
+    var controlsTitle = document.createElement("div");
+    controlsTitle.textContent = "CONTROLS";
+    controlsTitle.style.color = "#a97fda";
+    controlsTitle.style.fontWeight = "900";
+    controlsTitle.style.fontSize = "12px";
+    controlsTitle.style.letterSpacing = "0.7px";
+    controlsTitle.style.marginBottom = "4px";
+
+    var controlsBody = document.createElement("div");
+    controlsBody.style.whiteSpace = "pre-line";
+    controlsBody.textContent =
+        "Arrow Up/Down: Forward/Back\n" +
+        "Arrow Left/Right: Turn\n" +
+        "Q/W: Up/Down\n" +
+        "Space: Fire Rockets\n" +
+        "Tab: Restart (after win)";
+
+    legendRoot.appendChild(controlsTitle);
+    legendRoot.appendChild(controlsBody);
+
+    document.body.appendChild(legendRoot);
+    positionLab11Hud();
+}
+
+/* -----------------------------------------------------
+   LAB 11: Initialize combat state values
+   - resets arrays and boss health
+   - ensures HUD exists before animation starts
+----------------------------------------------------- */
+function initLab11CombatData() {
+    projectiles = [];
+    galactusHealth = galactusMaxHealth;
+    createLab11Hud();
+    createLab11Legend();
+}
+
 
 /* Define the add shapes function */
 function addShapes() {
@@ -568,4 +782,7 @@ function addShapes() {
 
     /* Lab 10 additions */
     buildShaderCloud();
+
+    /* Lab 11 additions */
+    initLab11CombatData();
 }

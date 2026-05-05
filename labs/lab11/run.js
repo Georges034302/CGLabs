@@ -12,7 +12,16 @@ function run() { // entry point for the lab
     }
 
     setScene(); // create scene, camera, renderer, controls
+    setupLab11Input(); // LAB 11: register keyboard controls (Arrows + Q/W + Space + Tab restart)
     addShapes(); // add Sun, Earth, Moon to the scene
+
+    // LAB 11: use scripted follow camera by default (students can re-enable if desired)
+    controls.enabled = false;
+
+    // LAB 11: reset gameplay timers/state before first frame
+    gameState = "playing";
+    fireTimer = 0;
+
     window.addEventListener("resize", resizeScene); // resize canvas + camera on window resize
     renderer.render(scene, camera); // draw the first frame (before animation starts)
     animate(); // start the single animation loop

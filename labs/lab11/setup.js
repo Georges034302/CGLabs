@@ -178,3 +178,86 @@ function applyLab8CompatibilityShims() {
     lab8CompatibilityShimsApplied = true;
 }
 
+/* -----------------------------------------------------------
+   LAB 11: Player input state and movement tuning
+   - inputState stores key press states across frames
+   - movement constants are reused in animate.js
+----------------------------------------------------------- */
+var inputState = {
+    forward: false,
+    backward: false,
+    left: false,
+    right: false,
+    rise: false,
+    descend: false,
+    fire: false
+};
+
+var shipMoveSpeed = 18; // units per second
+var shipTurnSpeed = 1.9; // radians per second
+var shipVerticalSpeed = 12; // units per second
+var shipVerticalLimit = 12; // symmetric vertical range: -limit to +limit
+
+/* -----------------------------------------------------------
+   LAB 11: Third-person follow camera tuning
+   - camera offset is defined in ship local space
+   - look offset keeps aim slightly above the ship origin
+   - smoothing blends camera movement instead of snapping
+----------------------------------------------------------- */
+var followOffset = new THREE.Vector3(-24, 11, 0);
+var lookOffset = new THREE.Vector3(0, 2.6, 0);
+var followSmoothing = 0.22;
+var followDistanceMultiplier = 2.0; // keep chase camera twice as far from the ship
+
+/* -----------------------------------------------------------
+   LAB 11: Handle keyboard press/release events
+    - maps Arrow keys for flight direction + Q/W for altitude + Space to fire
+    - Tab requests restart after victory
+   - prevents browser scroll when Space is used for firing
+----------------------------------------------------------- */
+function onLab11KeyChange(event, isPressed) {
+    if (event.code === "ArrowUp") inputState.forward = isPressed;
+    if (event.code === "ArrowDown") inputState.backward = isPressed;
+    if (event.code === "ArrowLeft") inputState.left = isPressed;
+    if (event.code === "ArrowRight") inputState.right = isPressed;
+     if (event.code === "KeyQ") inputState.rise = isPressed;
+     if (event.code === "KeyW") inputState.descend = isPressed;
+
+    // Prevent browser scrolling when arrow keys are used for ship control.
+    if (
+        event.code === "ArrowUp" ||
+        event.code === "ArrowDown" ||
+        event.code === "ArrowLeft" ||
+        event.code === "ArrowRight"
+    ) {
+        event.preventDefault();
+    }
+
+    if (event.code === "Space") {
+        inputState.fire = isPressed;
+        event.preventDefault();
+    }
+
+    // Tab is used as a gameplay restart key after Galactus is defeated.
+    if (event.code === "Tab") {
+        event.preventDefault();
+        if (isPressed && typeof requestLab11Restart === "function") {
+            requestLab11Restart();
+        }
+    }
+}
+
+/* -----------------------------------------------------------
+   LAB 11: Register gameplay input listeners
+   - called once from run() after scene setup
+----------------------------------------------------------- */
+function setupLab11Input() {
+    document.addEventListener("keydown", function(event) {
+        onLab11KeyChange(event, true);
+    });
+
+    document.addEventListener("keyup", function(event) {
+        onLab11KeyChange(event, false);
+    });
+}
+

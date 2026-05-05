@@ -17,6 +17,7 @@ The labs cover:
 - textured OBJ/MTL assets
 - graphics pipeline interaction effects
 - custom GLSL shaders and GPU-driven particle rendering
+- third-person gameplay mechanics with HUD-driven boss combat
 
 ## How Lab Selection Works
 
@@ -29,6 +30,7 @@ Examples:
 - `?lab=01` to `?lab=08`: fully implemented labs
 - `?lab=09`: graphics pipeline interaction lab (Galactus beam scenario)
 - `?lab=10`: custom shader lab with a Sun-centered particle cloud
+- `?lab=11`: third-person spaceship combat with strict-hit rockets, compact HUD panels, and restart flow
 - no `lab` parameter: neutral landing page with prompt to select a lab
 
 ## Repository Structure
@@ -47,6 +49,7 @@ CGLabs/
         lab02/
         ...
         lab10/
+        lab11/
 ```
 
 ## Lab Progression
@@ -61,6 +64,7 @@ CGLabs/
 8. Lab 08: Textured OBJ/MTL loading and asteroid-consumption interaction
 9. Lab 09: Graphics pipeline interaction (Galactus eye-beam concept and asteroid removal flow)
 10. Lab 10: Custom shaders and GPU rendering (solar emission particle cloud with BufferGeometry + ShaderMaterial)
+11. Lab 11: Third-person spaceship combat (rocket firing, strict mesh collision with splash impacts, compact scoreboard + controls HUD, victory perish and Tab restart)
 
 ## Tech Stack
 
@@ -76,3 +80,4 @@ CGLabs/
 - apply lighting, shading, and shadow techniques
 - load and place external assets reliably
 - implement simple interactive simulation behavior
+- compose input, camera, UI, and combat state in a real-time loop

@@ -4,9 +4,9 @@
 
 This lab extends the existing solar system and Galactus scenario into an interactive third-person combat exercise.
 
-Students take direct control of the PLY spaceship, fly through the scene with a follow camera, and fire projectiles at Galactus. Each successful hit reduces Galactus health until it reaches zero.
+Students take direct control of the PLY spaceship, fly through the scene with a third-person follow camera, and fire rockets at Galactus. Each successful hit reduces Galactus health until it reaches zero.
 
-The focus of this lab is real-time gameplay systems in Three.js: input handling, camera following, projectile updates, collision checks, and state-driven UI feedback.
+The focus of this lab is real-time gameplay systems in Three.js: input handling, camera following, projectile updates, tighter collision checks, and state-driven HUD feedback.
 
 ---
 
@@ -27,13 +27,13 @@ The focus of this lab is real-time gameplay systems in Three.js: input handling,
 
 | Topic | Concept |
 |---|---|
-| Player control | Keyboard-driven movement and rotation of a 3D ship |
-| Third-person camera | Camera follows a moving target with smoothing |
-| Projectile system | Spawn, update, and remove bullets over time |
+| Player control | Keyboard-driven movement, yaw, and altitude control |
+| Third-person camera | Zoomed-out follow camera with smoothing and distance enforcement |
+| Projectile system | Spawn, update, and remove rockets over time |
 | Cooldown logic | Time-gated firing to control shot rate |
-| Collision detection | Projectile-to-target hit testing with bounding volumes |
+| Collision detection | Segment raycast against Galactus mesh triangles for strict hit registration |
 | Combat state | Health tracking and death condition handling |
-| HUD updates | Real-time on-screen health and game status text |
+| HUD updates | Two-line scoreboard (`health`, `status`) plus a separate controls panel |
 
 ---
 
@@ -43,21 +43,24 @@ The Lab 10 scene remains intact (Sun, Earth, Moon, asteroid belt, Galactus, and 
 
 Core behaviour:
 
-- player controls the spaceship movement in third person
-- follow camera tracks behind the ship and keeps Galactus engagement visible
-- pressing fire creates projectiles from the ship front
-- projectiles travel forward and expire after a short lifetime
-- hits on Galactus reduce health
-- at zero health, Galactus enters a defeated state and the player wins
+- player controls spaceship movement in third person (including altitude up/down)
+- follow camera tracks behind the ship and stays zoomed out during control
+- pressing fire launches rockets from the ship front
+- rockets travel forward and expire after a short lifetime
+- rockets only register hits when they intersect Galactus geometry
+- on hit, rockets stop and spawn a brief splash effect (no penetration)
+- at zero health, Galactus enters a defeated state, slowly perishes (fade + shrink), and the player wins
+- pressing `Tab` after victory resets the fight and restores Galactus
 
 ---
 
 ## Controls
 
-- `W` / `S`: move forward / backward
-- `A` / `D`: yaw left / right
-- `Space`: fire projectile
-- mouse: optional camera look adjustment (if enabled)
+- `Arrow Up` / `Arrow Down`: move forward / backward
+- `Arrow Left` / `Arrow Right`: yaw left / right
+- `Q` / `W`: move up / down
+- `Space`: fire rockets
+- `Tab` (victory only): restart combat
 
 ---
 
@@ -65,9 +68,9 @@ Core behaviour:
 
 | Script | Status | Change |
 |---|---|---|
-| `setup.js` | Updated | input listeners, camera follow rig, movement constants |
-| `build.js` | Updated | player combat setup, Galactus health data, HUD references |
-| `animate.js` | Updated | movement update, camera follow, projectile logic, hit detection, win state |
+| `setup.js` | Updated | keyboard listeners, follow-camera constants, movement/altitude tuning |
+| `build.js` | Updated | player combat setup, Galactus state data, styled scoreboard + controls panel |
+| `animate.js` | Updated | movement update, follow camera, rocket logic, strict collision checks, splash impacts, perish/restart state |
 | `run.js` | Updated | initialize Lab 11 systems and launch main loop |
 
 ---
@@ -82,7 +85,9 @@ Core behaviour:
 | `fireCooldown` | animate.js | minimum delay between shots |
 | `galactusHealth` | build.js | current boss health |
 | `galactusMaxHealth` | build.js | max boss health for HUD scaling |
-| `gameState` | animate.js | gameplay phase (`playing`, `victory`, `defeat`) |
+| `gameState` | animate.js | gameplay phase (`playing`, `victory`) |
+| `galactusPerishProgress` | animate.js | defeat animation progress from 0 to 1 |
+| `rocketImpacts` | animate.js | active splash effects for rocket hit feedback |
 
 ---
 
@@ -92,8 +97,8 @@ Students understand:
 
 - how to convert a static graphics scene into an interactive gameplay loop
 - how to combine input, camera motion, and object updates each frame
-- how projectile and collision systems are structured in real-time 3D apps
+- how rocket and collision systems are structured in real-time 3D apps
 - how simple boss logic and health systems can be integrated into Three.js
-- how to present gameplay state through a minimal HUD
+- how to present gameplay state through a compact HUD and controls panel
 
 This lab bridges graphics rendering work with real-time interaction and game mechanics.
