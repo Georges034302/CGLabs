@@ -80,4 +80,7 @@ CGLabs/
 - apply lighting, shading, and shadow techniques
 - load and place external assets reliably
 - implement simple interactive simulation behavior
-- compose input, camera, UI, and combat state in a real-time loop
+- compose input, camera, UI, and combat state in a real-time 
+
+---
+<sub><i><span style="color:#B0B0B0">👤 Author: Dr. Georges Bou Ghantous</span></i></sub>
