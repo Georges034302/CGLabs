@@ -101,6 +101,15 @@ function animateGalactusBeam() {
    if(typeof beamLeft === "undefined" || !beamLeft) return;
    if(typeof beamRight === "undefined" || !beamRight) return;
 
+   // LAB 11: once combat is won (or Galactus is hidden), hard-stop beam logic.
+   if ((typeof gameState !== "undefined" && gameState !== "playing") || !galactus.visible) {
+      beamActive = false;
+      beamTimer = 0;
+      beamLeft.visible = false;
+      beamRight.visible = false;
+      return;
+   }
+
    scene.updateMatrixWorld();
 
    var dt = 1/100;
@@ -283,6 +292,8 @@ function restartLab11Game() {
    // Hide beams at restart.
    if (beamLeft) beamLeft.visible = false;
    if (beamRight) beamRight.visible = false;
+   beamActive = false;
+   beamTimer = 0;
 
    // Reset ship transform to spawn transform if available.
    if (playerShip && playerShip.userData) {
@@ -567,6 +578,8 @@ function animateLab11Collisions() {
             galactusPerishProgress = 0;
             if (beamLeft) beamLeft.visible = false;
             if (beamRight) beamRight.visible = false;
+            beamActive = false;
+            beamTimer = 0;
             break;
          }
       }
