@@ -9,6 +9,7 @@
     var ALL_LABS = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10","11"];
     var IMPLEMENTED_LABS = ["01", "02", "03", "04", "05", "06", "07", "08", "09","10","11"];
     var LAB_SCRIPTS = ["setup.js", "build.js", "animate.js", "run.js"];
+    var LAB_SCRIPT_VERSION = "20260515-1";
 
     // Resolve the requested lab from ?lab=XX and allow a no-selection landing state.
     function getActiveLab() {
@@ -104,7 +105,8 @@
             }
 
             var script = document.createElement("script");
-            script.src = labBasePath + LAB_SCRIPTS[index];
+            // Add a stable version token so Pages clients refresh updated lab scripts.
+            script.src = labBasePath + LAB_SCRIPTS[index] + "?v=" + LAB_SCRIPT_VERSION;
             script.async = false;
             script.onload = function() {
                 loadScriptAt(index + 1);
